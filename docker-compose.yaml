@@ -1,12 +1,13 @@
-version: '3.8'
+version: "3.8"
 
 services:
-  app:
+  api:
+    container_name: gprs.api
     build:
       context: .
       dockerfile: Dockerfile
     volumes:
       - .:/var/www
     ports:
-      - "8020:8000"
+      - "8030:8000"
     command: php artisan serve --host=0.0.0.0 --port=8000
