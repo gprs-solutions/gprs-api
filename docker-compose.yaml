@@ -1,6 +1,15 @@
 version: "3.8"
 
 services:
+  db:
+    container_name: gprs.db
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: gprs.db
+    ports:
+      - "3020:3306"
+
   api:
     container_name: gprs.api
     build:
@@ -11,3 +20,5 @@ services:
     ports:
       - "8030:8000"
     command: php artisan serve --host=0.0.0.0 --port=8000
+    depends_on:
+      - db
