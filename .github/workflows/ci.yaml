@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      [main]
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: composer install
+
+      - name: Run tests
+        run: | 
+          ./vendor/bin/phpunit --coverage-text --configuration phpunit.xml --testsuite Unit > coverage.txt
+      
+      - name: Check percentage
+        if: success()
+        run: |
+          grep "Lines" coverage.txt > coverage_percent.txt
+          coverage=$(grep -oP '(\d+\.\d+%)' coverage_percent.txt | sed 's/%//' | awk '{print $1 + 0}')
+          echo "COVERAGE=$coverage" >> $GITHUB_ENV
+          if [[ $coverage -lt 90 ]]
+          then
+            exit 1
+          else
+            exit 0
+          fi
+
+      - name: Alert error
+        if: failure()
+        run: echo 'Tests failed.'
+
+      - name: Alert success
+        if: success()
+        run: echo 'Tests succeded. Coverage is ${{ env.COVERAGE }}%'
