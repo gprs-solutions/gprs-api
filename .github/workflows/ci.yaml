@@ -29,6 +29,7 @@ jobs:
 
       - name: Run tests
         run: | 
+          ./vendor/bin/phpunit --coverage-text --configuration phpunit.xml --testsuite ${{ matrix.suite }}
           ./vendor/bin/phpunit --coverage-text --configuration phpunit.xml --testsuite ${{ matrix.suite }} > coverage.txt
       
       - name: Check percentage
