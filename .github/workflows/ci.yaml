@@ -26,6 +26,7 @@ jobs:
       - name: Run tests
         run: | 
           ./vendor/bin/phpunit --coverage-text --configuration phpunit.xml --testsuite Unit > coverage.txt
+          echo 'Coverage file result'
           cat ./coverage.txt
       
       - name: Check percentage
