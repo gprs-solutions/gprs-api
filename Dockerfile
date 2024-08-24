@@ -28,6 +28,3 @@ WORKDIR /var/www/html
 
 # Expose port 8000 to access the Laravel development server
 EXPOSE 8000
-
-# Command to keep the container running, allowing you to install Laravel or run commands
-CMD ["bash"]
