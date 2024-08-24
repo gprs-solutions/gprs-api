@@ -6,6 +6,12 @@ on:
       [main]
 
 jobs:
+  code_style:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run sniffer
+        run: composer run:sniffer
+        
   tests:
     runs-on: ubuntu-latest
     strategy:
@@ -26,9 +32,6 @@ jobs:
         run: |
           rm -rf ./composer.lock
           composer install
-      
-      - name: Run Sniffer
-        run: composer run:sniffer
 
       - name: Run tests
         run: | 
