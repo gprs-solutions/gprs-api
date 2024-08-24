@@ -36,6 +36,7 @@ jobs:
           echo "COVERAGE=$coverage" >> $GITHUB_ENV
 
           if [[ $coverage_int -lt 90 ]]; then
+            echo 'Tests Failed because the coverage is ${{ env.COVERAGE }}% and this repository enforces 90% of coverage.'
             exit 1
           fi
 
