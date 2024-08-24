@@ -44,11 +44,3 @@ jobs:
             echo 'Tests run succesfully with $coverage% coverage'
             exit 0
           fi
-
-      - name: Alert error
-        if: failure()
-        run: echo 'Tests failed.'
-
-      - name: Alert success
-        if: success()
-        run: echo 'Tests succeded.'
