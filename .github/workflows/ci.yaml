@@ -23,17 +23,33 @@ jobs:
           rm -rf ./composer.lock
           composer install
 
-      - name: Run tests
-        run: | 
-          ./vendor/bin/phpunit --coverage-text --configuration phpunit.xml --testsuite Unit > coverage.txt
-          grep "Lines" ./coverage.txt > coverage_percent.txt
-          coverage=$(grep -oP '(\d+\.\d+%)' ./coverage_percent.txt | sed 's/%//' | awk '{print $1 + 0}')
-          echo "COVERAGE=$coverage" >> $GITHUB_ENV
-          if [[ $coverage -lt 90 ]]
-          then
-            exit 1
+      - name: Run tests and generate coverage
+        run: |
+          echo "Running PHPUnit..."
+          ./vendor/bin/phpunit --coverage-text --configuration phpunit.xml --testsuite Unit > coverage.txt 2>&1
+          echo "Finished running PHPUnit. Checking coverage.txt..."
+          if [ -s coverage.txt ]; then
+            echo "coverage.txt has content:"
+            cat coverage.txt
           else
-            exit 0
+            echo "coverage.txt is empty or not created."
+            exit 1
+          fi
+
+      - name: Check percentage
+        run: |
+          grep "Lines" coverage.txt > coverage_percent.txt
+          if [ -s coverage_percent.txt ]; then
+            echo "Content of coverage_percent.txt:"
+            cat coverage_percent.txt
+          else
+            echo "coverage_percent.txt is empty or not created."
+            exit 1
+          fi
+          coverage=$(grep -oP '(\d+\.\d+%)' coverage_percent.txt | sed 's/%//' | awk '{print $1 + 0}')
+          echo "COVERAGE=$coverage" >> $GITHUB_ENV
+          if [[ $coverage -lt 90 ]]; then
+            exit 1
           fi
 
       - name: Alert error
