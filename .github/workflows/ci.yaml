@@ -47,7 +47,6 @@ jobs:
             exit 1
           fi
           coverage=$(grep -oP '(\d+\.\d+%)' coverage_percent.txt | sed 's/%//' | awk '{print $1 + 0}')
-          echo "COVERAGE=$coverage" >> $GITHUB_ENV
           if [[ $coverage -lt 90 ]]; then
             exit 1
           fi
