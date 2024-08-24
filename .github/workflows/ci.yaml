@@ -28,6 +28,8 @@ jobs:
           ./vendor/bin/phpunit --coverage-text --configuration phpunit.xml --testsuite Unit > coverage.txt
           echo 'Coverage file result'
           cat ./coverage.txt
+          grep "Lines" ./coverage.txt > coverage_percent.txt
+          cat ./coverage_percent.txt
       
       - name: Check percentage
         if: success()
