@@ -6,8 +6,12 @@ on:
       [main]
 
 jobs:
-  unit-tests:
+  tests:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        suite: [Unit, Feature]
+
     steps:
       - name: checkout
         uses: actions/checkout@v2
@@ -25,18 +29,16 @@ jobs:
 
       - name: Run tests
         run: | 
-          ./vendor/bin/phpunit --coverage-text --configuration phpunit.xml --testsuite Unit > coverage.txt
+          ./vendor/bin/phpunit --coverage-text --configuration phpunit.xml --testsuite ${{ matrix.suite }} > coverage.txt
       
       - name: Check percentage
         if: success()
         run: |
           grep "Lines" ./coverage.txt > coverage_percent.txt
           coverage=$(grep -oP '(\d+\.\d+%)' ./coverage_percent.txt | sed 's/%//' | awk '{print $1 + 0}')
-          coverage_int=$(printf "%.0f" $coverage)
-          echo "COVERAGE=$coverage" >> $GITHUB_ENV
 
-          if [[ $coverage_int -lt 90 ]]; then
-            echo 'Tests Failed because the coverage is ${{ env.COVERAGE }}% and this repository enforces 90% of coverage.'
+          if [[ $coverage -lt 90 ]]; then
+            echo 'Tests Failed because the coverage is ${{ coverage }}% and this repository enforces 90% of coverage.'
             exit 1
           fi
 
@@ -46,4 +48,4 @@ jobs:
 
       - name: Alert success
         if: success()
-        run: echo 'Tests succeded. Coverage is ${{ env.COVERAGE }}%'
+        run: echo 'Tests succeded.'
