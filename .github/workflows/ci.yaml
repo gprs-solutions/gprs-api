@@ -27,7 +27,7 @@ jobs:
           rm -rf ./composer.lock
           composer install
       
-      - name: Run Sniffer
+      - name: Run sniffer
         run: composer run:sniffer
 
       - name: Run tests
