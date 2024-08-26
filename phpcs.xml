@@ -1,0 +1,151 @@
+<?xml version="1.0"?>
+<ruleset name="PHP_CodeSniffer">
+    <description>PHPCS configuration file.</description>
+    <file>app</file>
+    <file>config</file>
+    <file>database</file>
+    <file>routes</file>
+    <file>tests</file>
+    <exclude-pattern>/app/Http/Middleware/ValidateSignature.php</exclude-pattern>
+    <exclude-pattern>/app/Http/Middleware/RedirectIfAuthenticated.php</exclude-pattern>
+    <exclude-pattern>/tests/CreatesApplication.php</exclude-pattern>
+    <exclude-pattern>/database/seeders/DatabaseSeeder.php</exclude-pattern>
+    <exclude-pattern>/config/app.php</exclude-pattern>
+    <exclude-pattern>/config/auth.php</exclude-pattern>
+    <exclude-pattern>/config/broadcasting.php</exclude-pattern>
+    <exclude-pattern>/config/cache.php</exclude-pattern>
+    <exclude-pattern>/config/cors.php</exclude-pattern>
+    <exclude-pattern>/config/database.php</exclude-pattern>
+    <exclude-pattern>/config/filesystems.php</exclude-pattern>
+    <exclude-pattern>/config/hashing.php</exclude-pattern>
+    <exclude-pattern>/config/jwt.php</exclude-pattern>
+    <exclude-pattern>/config/logging.php</exclude-pattern>
+    <exclude-pattern>/config/mail.php</exclude-pattern>
+    <exclude-pattern>/config/queue.php</exclude-pattern>
+    <exclude-pattern>/config/sanctum.php</exclude-pattern>
+    <exclude-pattern>/config/services.php</exclude-pattern>
+    <exclude-pattern>/config/session.php</exclude-pattern>
+    <exclude-pattern>/config/view.php</exclude-pattern>
+
+    <arg name="colors"/>
+    <arg value="p"/>
+
+    <ini name="memory_limit" value="128M"/>
+
+    <rule ref="PSR12"/>
+
+    <rule ref="Generic.Arrays.ArrayIndent"/>
+    <rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
+    <rule ref="Generic.Commenting.Todo"/>
+    <rule ref="Generic.ControlStructures.DisallowYodaConditions"/>
+    <rule ref="Generic.ControlStructures.InlineControlStructure"/>
+    <rule ref="Generic.Formatting.DisallowMultipleStatements"/>
+    <rule ref="Generic.Formatting.SpaceAfterCast"/>
+    <rule ref="Generic.NamingConventions.ConstructorName"/>
+    <rule ref="Generic.PHP.DeprecatedFunctions"/>
+    <rule ref="Generic.PHP.LowerCaseKeyword"/>
+    <rule ref="Generic.WhiteSpace.IncrementDecrementSpacing"/>
+
+    <rule ref="Generic.ControlStructures.InlineControlStructure">
+        <properties>
+            <property name="error" value="true"/>
+        </properties>
+    </rule>
+
+    <rule ref="Generic.Formatting.MultipleStatementAlignment">
+        <properties>
+            <property name="maxPadding" value="12"/>
+            <property name="error" value="true"/>
+        </properties>
+    </rule>
+
+    <rule ref="Generic.PHP.ForbiddenFunctions">
+        <properties>
+            <property name="forbiddenFunctions" type="array">
+                <element key="sizeof" value="count"/>
+                <element key="delete" value="unset"/>
+                <element key="print" value="echo"/>
+                <element key="is_null" value="null"/>
+                <element key="create_function" value="null"/>
+            </property>
+        </properties>
+    </rule>
+
+    <rule ref="PEAR">
+        <exclude name="PEAR.Commenting.ClassComment"/>
+        <exclude name="PEAR.Commenting.FileComment.Missing"/>
+        <exclude name="PEAR.Commenting.FileComment.MissingCategoryTag"/>
+        <exclude name="PEAR.Commenting.FileComment.MissingPackageTag"/>
+        <exclude name="PEAR.Commenting.FileComment.MissingLinkTag"/>
+        <exclude name="PEAR.Commenting.FileComment.MissingVersion"/>
+        <exclude name="PEAR.Commenting.InlineComment"/>
+        <exclude name="PEAR.NamingConventions.ValidFunctionName"/>
+        <exclude name="PEAR.NamingConventions.ValidVariableName"/>
+        <exclude name="PEAR.WhiteSpace.ScopeIndent"/>
+		<exclude name="PEAR.ControlStructures.MultiLineCondition"/>
+    </rule>
+
+    <rule ref="PEAR.Functions.FunctionCallSignature">
+        <properties>
+            <property name="allowMultipleArguments" value="false"/>
+        </properties>
+        <exclude name="PEAR.Functions.FunctionCallSignature.ContentAfterOpenBracket"/>
+    </rule>
+
+    <rule ref="PSR2.Methods.MethodDeclaration.Underscore">
+        <type>error</type>
+    </rule>
+
+    <rule ref="PSR2.Classes.PropertyDeclaration.Underscore">
+        <type>error</type>
+    </rule>
+
+    <rule ref="Squiz.Arrays.ArrayBracketSpacing"/>
+    <rule ref="Squiz.Arrays.ArrayDeclaration"/>
+
+    <rule ref="Squiz.Arrays.ArrayDeclaration.KeyNotAligned">
+        <severity>0</severity>
+    </rule>
+    <rule ref="Squiz.Arrays.ArrayDeclaration.ValueNotAligned">
+        <severity>0</severity>
+    </rule>
+    <rule ref="Squiz.Arrays.ArrayDeclaration.CloseBraceNotAligned">
+        <severity>0</severity>
+    </rule>
+    <rule ref="Squiz.Arrays.ArrayDeclaration.CloseBraceNewLine">
+        <severity>0</severity>
+    </rule>
+
+    <rule ref="Squiz.Commenting.BlockComment"/>
+    <rule ref="Squiz.Commenting.DocCommentAlignment"/>
+    <rule ref="Squiz.Commenting.EmptyCatchComment"/>
+    <rule ref="Squiz.Commenting.InlineComment"/>
+    <rule ref="Squiz.Commenting.PostStatementComment"/>
+    <rule ref="Squiz.Commenting.VariableComment"/>
+    <rule ref="Squiz.ControlStructures.ControlSignature"/>
+    <rule ref="Squiz.Formatting.OperatorBracket"/>
+    <rule ref="Squiz.Functions.FunctionDeclarationArgumentSpacing"/>
+
+    <rule ref="Squiz.NamingConventions.ValidVariableName">
+		<exclude name="Squiz.NamingConventions.ValidVariableName.NotCamelCaps"></exclude>
+	</rule>
+
+     <rule ref="Squiz.NamingConventions.ValidVariableName.NotCamelCaps">
+        <exclude name="Squiz.NamingConventions.ValidVariableName.MemberNotCamelCaps" />
+    </rule>
+
+    <rule ref="Squiz.NamingConventions.ValidVariableName.PrivateNoUnderscore">
+        <severity>0</severity>
+    </rule>
+
+    <rule ref="Squiz.Scope.MethodScope"/>
+    <rule ref="Squiz.WhiteSpace.ControlStructureSpacing"/>
+    <rule ref="Squiz.WhiteSpace.MemberVarSpacing">
+        <exclude name="Squiz.WhiteSpace.MemberVarSpacing.FirstIncorrect" />
+    </rule>
+    <rule ref="Squiz.WhiteSpace.OperatorSpacing"/>
+    <rule ref="Squiz.WhiteSpace.SuperfluousWhitespace"/>
+
+    <rule ref="Zend.Files.ClosingTag"/>
+
+</ruleset>

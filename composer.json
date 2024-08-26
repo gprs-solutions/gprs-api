@@ -48,7 +48,7 @@
             "@php artisan migrate --graceful --ansi"
         ],
         "run:sniffer": [
-            "./vendor/bin/phpcs --standard=PSR12 ./app"
+            "./vendor/bin/phpcs -np"
         ]
     },
     "extra": {
