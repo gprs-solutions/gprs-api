@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "firebase/php-jwt": "^6.10",
         "laravel/framework": "^11.9",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9"
@@ -49,6 +50,33 @@
         ],
         "run:sniffer": [
             "./vendor/bin/phpcs -np"
+        ],
+        "run:beautifier": [
+            "./vendor/bin/phpcbf"
+        ],
+        "run:tests": [
+            "php artisan migrate:fresh --seed --force",
+            "./vendor/bin/phpunit --coverage-text --configuration phpunit.xml"
+        ],
+        "run:tests:unit": [
+            "php artisan migrate:fresh --seed --force",
+            "./vendor/bin/phpunit --coverage-text --configuration phpunit.xml --testsuite Unit"
+        ],
+        "run:tests:feature": [
+            "php artisan migrate:fresh --seed --force",
+            "./vendor/bin/phpunit --coverage-text --configuration phpunit.xml --testsuite Feature"
+        ],
+        "run:tests:html": [
+            "php artisan migrate:fresh --seed --force",
+            "./vendor/bin/phpunit --coverage-text --configuration phpunit.xml --coverage-html ./reports/"
+        ],
+        "run:tests:unit:html": [
+            "php artisan migrate:fresh --seed --force",
+            "./vendor/bin/phpunit --coverage-text --configuration phpunit.xml --testsuite Unit --coverage-html ./reports/"
+        ],
+        "run:tests:feature:html": [
+            "php artisan migrate:fresh --seed --force",
+            "./vendor/bin/phpunit --coverage-text --configuration phpunit.xml --testsuite Feature --coverage-html ./reports/"
         ]
     },
     "extra": {
