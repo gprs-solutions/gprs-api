@@ -29,9 +29,6 @@ jobs:
   tests:
     runs-on: ubuntu-latest
     needs: ['code-style']
-    outputs:
-      unit: ${{ steps.percentages.outputs.unit }}
-      feature: ${{ steps.percentages.outputs.feature }}
     strategy:
       matrix:
         combination:
@@ -84,16 +81,19 @@ jobs:
         if: success()
         run: |
           grep "^[[:space:]]*Lines:" ./coverage.txt > coverage_percent.txt
-          coverage_${{ matrix.combination.suite }}=$(grep -oP '(\d+\.\d+%)' ./coverage_percent.txt | sed 's/%//' | awk '{print $1 + 0}')
+          coverage_value=$(grep -oP '(\d+\.\d+%)' ./coverage_percent.txt | sed 's/%//' | awk '{print $1 + 0}')
 
-          if [[ "$coverage_${{ matrix.combination.suite }}" -lt 80 ]]; then
-            echo "Tests Failed because the coverage is $coverage_${{ matrix.combination.suite }}% and this repository enforces 80% of coverage."
+          if [[ "$coverage_value" -lt 80 ]]; then
+            echo "Tests Failed because the coverage is $coverage_value% and this repository enforces 80% of coverage."
             exit 1
           else
-            echo "Tests ran successfully with $coverage_${{ matrix.combination.suite }}% coverage"
-            exit 0
+            echo "Tests ran successfully with $coverage_value% coverage"
           fi
-          echo "coverage_${{ matrix.combination.suite }}=coverage_${{ matrix.combination.suite }}" >> $GITHUB_OUTPUT
+          echo "${{ matrix.combination.suite }}=$coverage_value" >> $GITHUB_OUTPUT
+
+    outputs:
+      unit: ${{ steps.percentages.outputs.unit }}
+      feature: ${{ steps.percentages.outputs.feature }}
 
   code-coverage-as-comment:
     runs-on: 'ubuntu-latest'
@@ -111,7 +111,7 @@ jobs:
               body: `
                 | **Test type** | **Percentage** | 
                 | ------------- | -------------- | 
-                | Unit          | ${{needs.tests.outputs.coverage_unit}}% | 
-                | Feature       | ${{needs.tests.outputs.coverage_feature}}% |
+                | Unit          | ${{needs.tests.outputs.unit}}% | 
+                | Feature       | ${{needs.tests.outputs.feature}}% |
                 `
             })
