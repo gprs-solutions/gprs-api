@@ -106,7 +106,7 @@ jobs:
               body: `
                 | **Test type** | **Percentage** | 
                 | ------------- | -------------- | 
-                | Unit          | ${env.coverage_unit}% | 
-                | Feature       | ${env.coverage_feature}% |
+                | Unit          | ${{env.coverage_unit}}% | 
+                | Feature       | ${{env.coverage_feature}}% |
                 `
             })
