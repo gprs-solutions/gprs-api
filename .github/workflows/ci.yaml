@@ -101,9 +101,9 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
-              body: |
+              body: `
                   | **Test type** | **Percentage** | 
                   | -------- | -------- | 
                   | Unit | ${{ env.coverage_unit }}% | 
-                  | Feature | ${{ env.coverage_feature }}% | 
+                  | Feature | ${{ env.coverage_feature }}%| `
             })
