@@ -72,6 +72,8 @@ jobs:
           DB_DATABASE: gprs.db
           DB_USERNAME: root
           DB_PASSWORD: root
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          JWT_ALGO: ${{ secrets.JWT_ALGO }}
       
       - name: Check percentage
         if: success()
