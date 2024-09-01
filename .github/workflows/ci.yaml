@@ -63,7 +63,7 @@ jobs:
 
       - name: Run tests
         run: | 
-          composer run:tests:${{ matrix.combination.suite }} > coverage.txt
+          composer run:tests:${{ matrix.combination.suite }} | tee coverage.txt
           cat ./coverage.txt
         env:
           DB_CONNECTION: mysql
