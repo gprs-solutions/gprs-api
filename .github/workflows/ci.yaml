@@ -31,6 +31,7 @@ jobs:
     if: always()
     needs: ['code-style']
     strategy:
+      fail-fast: false
       matrix:
         combination:
           - suite: unit
@@ -111,5 +112,5 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
-              body: "### Tests coverages\n---\n**Unit**: ${{needs.tests.outputs.unit}}%\n**Feature**: ${{needs.tests.outputs.feature}}%"
+              body: "### Tests coverages\n\n| **Test type** | **Percentage** |\n| ------------- | -------------- |\n| Unit          | ${{needs.tests.outputs.unit}}% |\n| Feature       | ${{needs.tests.outputs.feature}}% |"
             })
