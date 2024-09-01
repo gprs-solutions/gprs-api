@@ -86,7 +86,7 @@ jobs:
 
           if [[ "$coverage_value" -lt 80 ]]; then
             echo "Tests Failed because the coverage is $coverage_value% and this repository enforces 80% of coverage."
-            echo "${{ matrix.combination.suite }}=$coverage_value" >> $GITHUB_OUTPUT
+            echo "${{ matrix.combination.suite }}=$coverage_value_float" >> $GITHUB_OUTPUT
             exit 1
           else
             echo "Tests ran successfully with $coverage_value% coverage"
@@ -112,7 +112,7 @@ jobs:
               repo: context.repo.repo,
               issue_number: context.issue.number,
               body: `
-                ### Tests coverages
+                <h3>Tests coverages</h3>
 
                 ---
                 
