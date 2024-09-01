@@ -16,6 +16,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.3'
+          coverage: xdebug
           tools: composer
 
       - name: Install dependencies
@@ -32,9 +33,9 @@ jobs:
     strategy:
       matrix:
         combination:
-          - suite: Unit
+          - suite: unit
             port: 3308
-          - suite: Feature
+          - suite: feature
             port: 3309
     services:
       mysql:
@@ -62,7 +63,7 @@ jobs:
 
       - name: Run tests
         run: | 
-          composer run:tests:${{ matrix.combination.suite }}:html > coverage.txt
+          composer run:tests:${{ matrix.combination.suite }} > coverage.txt
           cat ./coverage.txt
         env:
           DB_CONNECTION: mysql
