@@ -28,6 +28,7 @@ jobs:
 
   tests:
     runs-on: ubuntu-latest
+    if: always()
     needs: ['code-style']
     strategy:
       matrix:
@@ -78,18 +79,18 @@ jobs:
       
       - name: Check percentage
         id: percentages
-        if: success()
         run: |
           grep "^[[:space:]]*Lines:" ./coverage.txt > coverage_percent.txt
-          coverage_value=$(grep -oP '(\d+\.\d+%)' ./coverage_percent.txt | sed 's/%//' | awk '{print $1 + 0}')
+          coverage_value=$(grep -oP '(\d+\.\d+%)' ./coverage_percent.txt | sed 's/%//' | awk '{print int($1)}')
 
           if [[ "$coverage_value" -lt 80 ]]; then
             echo "Tests Failed because the coverage is $coverage_value% and this repository enforces 80% of coverage."
+            echo "${{ matrix.combination.suite }}=$coverage_value" >> $GITHUB_OUTPUT
             exit 1
           else
             echo "Tests ran successfully with $coverage_value% coverage"
+            echo "${{ matrix.combination.suite }}=$coverage_value" >> $GITHUB_OUTPUT
           fi
-          echo "${{ matrix.combination.suite }}=$coverage_value" >> $GITHUB_OUTPUT
 
     outputs:
       unit: ${{ steps.percentages.outputs.unit }}
@@ -97,6 +98,7 @@ jobs:
 
   code-coverage-as-comment:
     runs-on: 'ubuntu-latest'
+    if: always()
     needs: ["tests"]
     steps:
       - name: 'Post comment'
