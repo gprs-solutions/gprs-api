@@ -62,6 +62,9 @@ jobs:
           composer install
 
       - name: Run tests
+        outputs:
+          unit: ${{ steps.percentages.outputs.unit }}
+          feature: ${{ steps.percentages.outputs.feature }}
         run: | 
           composer run:tests:${{ matrix.combination.suite }} | tee coverage.txt
           test ${PIPESTATUS[0]} -eq 0
@@ -76,6 +79,7 @@ jobs:
           JWT_ALGO: ${{ secrets.JWT_ALGO }}
       
       - name: Check percentage
+        id: percentages
         if: success()
         run: |
           grep "^[[:space:]]*Lines:" ./coverage.txt > coverage_percent.txt
