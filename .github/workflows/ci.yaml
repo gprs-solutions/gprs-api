@@ -76,6 +76,7 @@ jobs:
           DB_PASSWORD: root
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
           JWT_ALGO: ${{ secrets.JWT_ALGO }}
+          APP_URL: http://localhost
       
       - name: Check percentage
         id: percentages
