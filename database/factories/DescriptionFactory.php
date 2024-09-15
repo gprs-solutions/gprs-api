@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Certification;
 use App\Models\Experience;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -37,6 +38,32 @@ class DescriptionFactory extends Factory
                     'descriptionable_id'   => Experience::factory(),
                     'descriptionable_type' => function (array $attributes) {
                         return Experience::find($attributes['descriptionable_id'])->getMorphClass();
+                    },
+                ];
+            }
+        );
+    }
+
+    /**
+     * Creates a description for certifications.
+     *
+     * @return Factory
+     */
+    public function forCert(): Factory
+    {
+        return $this->state(
+            function (array $attributes) {
+                return [
+                    'lang'                 => [
+                        'EN',
+                        'PT',
+                    ][random_int(0, 1)],
+                    'description'          => fake()->text(500),
+                    'name'                 => fake()->name(),
+                    'type'                 => 'cert',
+                    'descriptionable_id'   => Certification::factory(),
+                    'descriptionable_type' => function (array $attributes) {
+                        return Certification::find($attributes['descriptionable_id'])->getMorphClass();
                     },
                 ];
             }
