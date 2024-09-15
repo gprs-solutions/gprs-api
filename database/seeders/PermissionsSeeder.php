@@ -41,5 +41,33 @@ class PermissionsSeeder extends Seeder
                 'description' => 'Allows the deletion of users',
             ]
         );
+
+        Permission::create(
+            [
+                'code'        => 'GPRS_EXP_CREATE',
+                'description' => 'Allows the creation of experiences',
+            ]
+        );
+
+        Permission::create(
+            [
+                'code'        => 'GPRS_EXP_UPDATE',
+                'description' => 'Allows the update of experiences',
+            ]
+        );
+
+        Permission::create(
+            [
+                'code'        => 'GPRS_EXP_GET',
+                'description' => 'Allows the listing of experiences',
+            ]
+        );
+
+        Permission::create(
+            [
+                'code'        => 'GPRS_EXP_DELETE',
+                'description' => 'Allows the deletion of experiences',
+            ]
+        );
     }
 }

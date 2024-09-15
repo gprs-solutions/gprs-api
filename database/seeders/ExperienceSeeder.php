@@ -2,9 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\Description;
 use Illuminate\Database\Seeder;
 
-class DatabaseSeeder extends Seeder
+class ExperienceSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -13,8 +14,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->call(PermissionsSeeder::class);
-        $this->call(RolesSeeder::class);
-        $this->call(ExperienceSeeder::class);
+        Description::factory()->forExp()->create();
     }
 }
