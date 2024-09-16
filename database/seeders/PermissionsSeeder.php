@@ -125,5 +125,33 @@ class PermissionsSeeder extends Seeder
                 'description' => 'Allows the deletion of education histories',
             ]
         );
+
+        Permission::create(
+            [
+                'code'        => 'GPRS_SKILL_CREATE',
+                'description' => 'Allows the creation of skills',
+            ]
+        );
+
+        Permission::create(
+            [
+                'code'        => 'GPRS_SKILL_UPDATE',
+                'description' => 'Allows the update of skills',
+            ]
+        );
+
+        Permission::create(
+            [
+                'code'        => 'GPRS_SKILL_GET',
+                'description' => 'Allows the listing of skills',
+            ]
+        );
+
+        Permission::create(
+            [
+                'code'        => 'GPRS_SKILL_DELETE',
+                'description' => 'Allows the deletion of skills',
+            ]
+        );
     }
 }

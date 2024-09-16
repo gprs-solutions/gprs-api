@@ -1,12 +1,12 @@
 <?php
 
-namespace Tests\Feature\Cert;
+namespace Tests\Feature\Skill;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\Response;
 use Tests\Feature\BaseFeatureTestClass;
 
-class CertExceptionTest extends BaseFeatureTestClass
+class SkillExceptionTest extends BaseFeatureTestClass
 {
     use DatabaseTransactions;
 
@@ -20,7 +20,7 @@ class CertExceptionTest extends BaseFeatureTestClass
         $id = 0;
         // Invalid.
         $result = $this->get(
-            $this->baseUrl . '/cert/' . $id,
+            $this->baseUrl . '/skill/' . $id,
             [
                 'Authorization' => 'Bearer ' . $this->token,
             ]
@@ -42,19 +42,8 @@ class CertExceptionTest extends BaseFeatureTestClass
     public function testCreateInvalidInputs()
     {
         $result = $this->post(
-            $this->baseUrl . '/cert/',
-            [
-                'image'        => 1234,
-                'start'        => 'invalid',
-                'end'          => 'invalid',
-                'descriptions' => [
-                    [
-                        'name'        => 1234,
-                        'lang'        => 'PT_INVALID_NUMBER',
-                        'description' => 1234,
-                    ],
-                ],
-            ],
+            $this->baseUrl . '/skill/',
+            ['image' => 1234],
             [
                 'Authorization' => 'Bearer ' . $this->token,
             ]
@@ -67,12 +56,8 @@ class CertExceptionTest extends BaseFeatureTestClass
         $this->assertNotEmpty($content['message']);
         $this->assertEmpty($content['data']);
         $this->assertDatabaseMissing(
-            'experiences',
+            'skills',
             ['image' => 1234]
-        );
-        $this->assertDatabaseMissing(
-            'descriptions',
-            ['name' => 1234]
         );
     }
 
@@ -85,20 +70,10 @@ class CertExceptionTest extends BaseFeatureTestClass
     {
         $id     = 0;
         $result = $this->patch(
-            $this->baseUrl . '/cert/' . $id,
+            $this->baseUrl . '/skill/' . $id,
             [
-                'id'           => $id,
-                'image'        => 1234,
-                'start'        => 'invalid',
-                'end'          => 'invalid',
-                'descriptions' => [
-                    [
-                        'id'          => $id,
-                        'name'        => 1234,
-                        'lang'        => 'PT_INVALID_NUMBER',
-                        'description' => 1234,
-                    ],
-                ],
+                'id'    => $id,
+                'image' => 1234,
             ],
             [
                 'Authorization' => 'Bearer ' . $this->token,
@@ -112,12 +87,8 @@ class CertExceptionTest extends BaseFeatureTestClass
         $this->assertNotEmpty($content['message']);
         $this->assertEmpty($content['data']);
         $this->assertDatabaseMissing(
-            'experiences',
+            'skills',
             ['image' => 1234]
-        );
-        $this->assertDatabaseMissing(
-            'descriptions',
-            ['name' => 1234]
         );
     }
 
@@ -130,7 +101,7 @@ class CertExceptionTest extends BaseFeatureTestClass
     {
         $id     = 0;
         $result = $this->delete(
-            $this->baseUrl . '/cert/' . $id,
+            $this->baseUrl . '/skill/' . $id,
             [],
             [
                 'Authorization' => 'Bearer ' . $this->token,

@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CertController;
 use App\Http\Controllers\EduController;
 use App\Http\Controllers\ExpController;
+use App\Http\Controllers\SkillController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\Authorize;
@@ -100,5 +101,22 @@ Route::prefix('edu')->middleware([Authenticate::class])->group(
         // Matches /api/edu/{id}.
         Route::delete('/{id}', [EduController::class, 'suspend'])
             ->middleware(Authorize::class . ':GPRS_EDU_DELETE');
+    }
+);
+
+Route::prefix('skill')->middleware([Authenticate::class])->group(
+    function () {
+        // Matches /api/skill/{id}.
+        Route::get('/{id}', [SkillController::class, 'get'])
+            ->middleware(Authorize::class . ':GPRS_SKILL_GET');
+        // Matches /api/skill.
+        Route::post('/', [SkillController::class, 'create'])
+            ->middleware(Authorize::class . ':GPRS_SKILL_CREATE');
+        // Matches /api/skill/{id}.
+        Route::patch('/{id}', [SkillController::class, 'update'])
+            ->middleware(Authorize::class . ':GPRS_SKILL_UPDATE');
+        // Matches /api/skill/{id}.
+        Route::delete('/{id}', [SkillController::class, 'suspend'])
+            ->middleware(Authorize::class . ':GPRS_SKILL_DELETE');
     }
 );

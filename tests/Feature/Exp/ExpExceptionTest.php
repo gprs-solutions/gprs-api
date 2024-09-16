@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\User;
+namespace Tests\Feature\Skill;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\Response;
