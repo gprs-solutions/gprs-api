@@ -3,12 +3,15 @@
 namespace Tests\Feature\User;
 
 use App\Models\User;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Tests\Feature\BaseFeatureTestClass;
 
 class UserExceptionTest extends BaseFeatureTestClass
 {
+    use DatabaseTransactions;
+
     /**
      * Test if the in case of failures the system behaves as expected.
      *

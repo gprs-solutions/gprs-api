@@ -3,12 +3,15 @@
 namespace Tests\Feature\User;
 
 use App\Models\User;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Tests\Feature\BaseFeatureTestClass;
 
 class UserTest extends BaseFeatureTestClass
 {
+    use DatabaseTransactions;
+
     /**
      * Test if the "happy path" works as expected.
      *

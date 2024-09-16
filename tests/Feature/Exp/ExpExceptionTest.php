@@ -2,11 +2,14 @@
 
 namespace Tests\Feature\User;
 
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\Response;
 use Tests\Feature\BaseFeatureTestClass;
 
 class ExpExceptionTest extends BaseFeatureTestClass
 {
+    use DatabaseTransactions;
+
     /**
      * Test if the in case of failures the system behaves as expected.
      *

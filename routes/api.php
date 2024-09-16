@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CertController;
+use App\Http\Controllers\EduController;
 use App\Http\Controllers\ExpController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\Authenticate;
@@ -79,5 +80,25 @@ Route::prefix('cert')->middleware([Authenticate::class])->group(
         // Matches /api/cert/{id}.
         Route::delete('/{id}', [CertController::class, 'suspend'])
             ->middleware(Authorize::class . ':GPRS_CERT_DELETE');
+    }
+);
+
+Route::prefix('edu')->middleware([Authenticate::class])->group(
+    function () {
+        // Matches /api/edu/{id}.
+        Route::get('/{id}', [EduController::class, 'get'])
+            ->middleware(Authorize::class . ':GPRS_EDU_GET');
+
+        // Matches /api/edu.
+        Route::post('/', [EduController::class, 'create'])
+            ->middleware(Authorize::class . ':GPRS_EDU_CREATE');
+
+        // Matches /api/edu/{id}.
+        Route::patch('/{id}', [EduController::class, 'update'])
+            ->middleware(Authorize::class . ':GPRS_EDU_UPDATE');
+
+        // Matches /api/edu/{id}.
+        Route::delete('/{id}', [EduController::class, 'suspend'])
+            ->middleware(Authorize::class . ':GPRS_EDU_DELETE');
     }
 );

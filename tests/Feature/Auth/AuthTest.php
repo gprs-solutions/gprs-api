@@ -2,11 +2,14 @@
 
 namespace Tests\Feature\Auth;
 
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\Response;
 use Tests\Feature\BaseFeatureTestClass;
 
 class AuthTest extends BaseFeatureTestClass
 {
+    use DatabaseTransactions;
+
     /**
      * Test if the "happy path" works as expected.
      *

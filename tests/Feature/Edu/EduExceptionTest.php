@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\Response;
 use Tests\Feature\BaseFeatureTestClass;
 
-class CertExceptionTest extends BaseFeatureTestClass
+class EduExceptionTest extends BaseFeatureTestClass
 {
     use DatabaseTransactions;
 
@@ -20,7 +20,7 @@ class CertExceptionTest extends BaseFeatureTestClass
         $id = 0;
         // Invalid.
         $result = $this->get(
-            $this->baseUrl . '/cert/' . $id,
+            $this->baseUrl . '/edu/' . $id,
             [
                 'Authorization' => 'Bearer ' . $this->token,
             ]
@@ -42,7 +42,7 @@ class CertExceptionTest extends BaseFeatureTestClass
     public function testCreateInvalidInputs()
     {
         $result = $this->post(
-            $this->baseUrl . '/cert/',
+            $this->baseUrl . '/edu/',
             [
                 'image'        => 1234,
                 'start'        => 'invalid',
@@ -67,7 +67,7 @@ class CertExceptionTest extends BaseFeatureTestClass
         $this->assertNotEmpty($content['message']);
         $this->assertEmpty($content['data']);
         $this->assertDatabaseMissing(
-            'experiences',
+            'educations',
             ['image' => 1234]
         );
         $this->assertDatabaseMissing(
@@ -85,7 +85,7 @@ class CertExceptionTest extends BaseFeatureTestClass
     {
         $id     = 0;
         $result = $this->patch(
-            $this->baseUrl . '/cert/' . $id,
+            $this->baseUrl . '/edu/' . $id,
             [
                 'id'           => $id,
                 'image'        => 1234,
@@ -112,7 +112,7 @@ class CertExceptionTest extends BaseFeatureTestClass
         $this->assertNotEmpty($content['message']);
         $this->assertEmpty($content['data']);
         $this->assertDatabaseMissing(
-            'experiences',
+            'educations',
             ['image' => 1234]
         );
         $this->assertDatabaseMissing(
@@ -130,7 +130,7 @@ class CertExceptionTest extends BaseFeatureTestClass
     {
         $id     = 0;
         $result = $this->delete(
-            $this->baseUrl . '/cert/' . $id,
+            $this->baseUrl . '/edu/' . $id,
             [],
             [
                 'Authorization' => 'Bearer ' . $this->token,

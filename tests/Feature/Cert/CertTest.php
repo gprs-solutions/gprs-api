@@ -3,11 +3,14 @@
 namespace Tests\Feature\Cert;
 
 use App\Models\Certification;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\Response;
 use Tests\Feature\BaseFeatureTestClass;
 
 class CertTest extends BaseFeatureTestClass
 {
+    use DatabaseTransactions;
+
     /**
      * Test if the "happy path" works as expected.
      *

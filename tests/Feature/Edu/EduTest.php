@@ -1,13 +1,13 @@
 <?php
 
-namespace Tests\Feature\Exp;
+namespace Tests\Feature\Edu;
 
-use App\Models\Experience;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Models\Education;
 use Illuminate\Http\Response;
 use Tests\Feature\BaseFeatureTestClass;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class ExpTest extends BaseFeatureTestClass
+class EduTest extends BaseFeatureTestClass
 {
     use DatabaseTransactions;
 
@@ -18,9 +18,9 @@ class ExpTest extends BaseFeatureTestClass
      */
     public function testGet()
     {
-        $experience = Experience::factory()->create();
-        $result     = $this->get(
-            $this->baseUrl . '/exp/' . $experience->id,
+        $education = Education::factory()->create();
+        $result    = $this->get(
+            $this->baseUrl . '/edu/' . $education->id,
             [
                 'Authorization' => 'Bearer ' . $this->token,
             ]
@@ -33,10 +33,10 @@ class ExpTest extends BaseFeatureTestClass
         $this->assertSame(__('messages.successfulOperation'), $content['message']);
         $this->assertNotEmpty($content['data'][0]);
         $data = $content['data'][0];
-        $this->assertSame($experience->id, $data['id']);
-        $this->assertSame($experience->start . ' 00:00:00', $data['start']);
-        $this->assertSame($experience->end . ' 00:00:00', $data['end']);
-        $this->assertSame($experience->image, $data['image']);
+        $this->assertSame($education->id, $data['id']);
+        $this->assertSame($education->start . ' 00:00:00', $data['start']);
+        $this->assertSame($education->end . ' 00:00:00', $data['end']);
+        $this->assertSame($education->image, $data['image']);
     }
 
     /**
@@ -47,7 +47,7 @@ class ExpTest extends BaseFeatureTestClass
     public function testCreate()
     {
         $result = $this->post(
-            $this->baseUrl . '/exp/',
+            $this->baseUrl . '/edu/',
             [
                 'image'        => 'http://image',
                 'start'        => '2020-10-07',
@@ -72,7 +72,7 @@ class ExpTest extends BaseFeatureTestClass
         $this->assertSame(__('messages.successfulOperation'), $content['message']);
         $this->assertEmpty($content['data']);
         $this->assertDatabaseHas(
-            'experiences',
+            'educations',
             [
                 'image' => 'http://image',
                 'start' => '2020-10-07',
@@ -96,9 +96,9 @@ class ExpTest extends BaseFeatureTestClass
      */
     public function testUpdate()
     {
-        $experience = Experience::factory()->create();
-        $result     = $this->patch(
-            $this->baseUrl . '/exp/' . $experience->id,
+        $education = Education::factory()->create();
+        $result    = $this->patch(
+            $this->baseUrl . '/edu/' . $education->id,
             [
                 'image'        => 'http://image2',
                 'start'        => '2020-10-07',
@@ -117,7 +117,7 @@ class ExpTest extends BaseFeatureTestClass
         $this->assertSame(__('messages.successfulOperation'), $content['message']);
         $this->assertEmpty($content['data']);
         $this->assertDatabaseHas(
-            'experiences',
+            'educations',
             [
                 'image' => 'http://image2',
                 'start' => '2020-10-07',
@@ -133,9 +133,9 @@ class ExpTest extends BaseFeatureTestClass
      */
     public function testSuspend()
     {
-        $experience = Experience::factory()->create();
-        $result     = $this->delete(
-            $this->baseUrl . '/exp/' . $experience->id,
+        $education = Education::factory()->create();
+        $result    = $this->delete(
+            $this->baseUrl . '/edu/' . $education->id,
             [],
             [
                 'Authorization' => 'Bearer ' . $this->token,
@@ -149,11 +149,11 @@ class ExpTest extends BaseFeatureTestClass
         $this->assertSame(__('messages.successfulOperation'), $content['message']);
         $this->assertEmpty($content['data']);
         $this->assertDatabaseHas(
-            'experiences',
+            'educations',
             [
-                'image' => $experience->image,
-                'start' => $experience->start,
-                'end'   => $experience->end,
+                'image' => $education->image,
+                'start' => $education->start,
+                'end'   => $education->end,
             ]
         );
     }
