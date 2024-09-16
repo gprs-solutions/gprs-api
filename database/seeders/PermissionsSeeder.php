@@ -153,5 +153,33 @@ class PermissionsSeeder extends Seeder
                 'description' => 'Allows the deletion of skills',
             ]
         );
+
+        Permission::create(
+            [
+                'code'        => 'GPRS_PROJ_CREATE',
+                'description' => 'Allows the creation of projects',
+            ]
+        );
+
+        Permission::create(
+            [
+                'code'        => 'GPRS_PROJ_UPDATE',
+                'description' => 'Allows the update of projects',
+            ]
+        );
+
+        Permission::create(
+            [
+                'code'        => 'GPRS_PROJ_GET',
+                'description' => 'Allows the listing of projects',
+            ]
+        );
+
+        Permission::create(
+            [
+                'code'        => 'GPRS_PROJ_DELETE',
+                'description' => 'Allows the deletion of projects',
+            ]
+        );
     }
 }

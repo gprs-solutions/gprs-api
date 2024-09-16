@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CertController;
 use App\Http\Controllers\EduController;
 use App\Http\Controllers\ExpController;
+use App\Http\Controllers\ProjController;
 use App\Http\Controllers\SkillController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\Authenticate;
@@ -118,5 +119,25 @@ Route::prefix('skill')->middleware([Authenticate::class])->group(
         // Matches /api/skill/{id}.
         Route::delete('/{id}', [SkillController::class, 'suspend'])
             ->middleware(Authorize::class . ':GPRS_SKILL_DELETE');
+    }
+);
+
+Route::prefix('proj')->middleware([Authenticate::class])->group(
+    function () {
+        // Matches /api/proj/{id}.
+        Route::get('/{id}', [ProjController::class, 'get'])
+            ->middleware(Authorize::class . ':GPRS_PROJ_GET');
+
+        // Matches /api/proj.
+        Route::post('/', [ProjController::class, 'create'])
+            ->middleware(Authorize::class . ':GPRS_PROJ_CREATE');
+
+        // Matches /api/proj/{id}.
+        Route::patch('/{id}', [ProjController::class, 'update'])
+            ->middleware(Authorize::class . ':GPRS_PROJ_UPDATE');
+
+        // Matches /api/proj/{id}.
+        Route::delete('/{id}', [ProjController::class, 'suspend'])
+            ->middleware(Authorize::class . ':GPRS_PROJ_DELETE');
     }
 );

@@ -1,12 +1,12 @@
 <?php
 
-namespace Tests\Feature\Cert;
+namespace Tests\Feature\Proj;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\Response;
 use Tests\Feature\BaseFeatureTestClass;
 
-class CertExceptionTest extends BaseFeatureTestClass
+class ProjExceptionTest extends BaseFeatureTestClass
 {
     use DatabaseTransactions;
 
@@ -20,7 +20,7 @@ class CertExceptionTest extends BaseFeatureTestClass
         $id = 0;
         // Invalid.
         $result = $this->get(
-            $this->baseUrl . '/cert/' . $id,
+            $this->baseUrl . '/proj/' . $id,
             [
                 'Authorization' => 'Bearer ' . $this->token,
             ]
@@ -42,7 +42,7 @@ class CertExceptionTest extends BaseFeatureTestClass
     public function testCreateInvalidInputs()
     {
         $result = $this->post(
-            $this->baseUrl . '/cert/',
+            $this->baseUrl . '/proj/',
             [
                 'image'        => 1234,
                 'start'        => 'invalid',
@@ -67,7 +67,7 @@ class CertExceptionTest extends BaseFeatureTestClass
         $this->assertNotEmpty($content['message']);
         $this->assertEmpty($content['data']);
         $this->assertDatabaseMissing(
-            'certifications',
+            'projects',
             ['image' => 1234]
         );
         $this->assertDatabaseMissing(
@@ -85,7 +85,7 @@ class CertExceptionTest extends BaseFeatureTestClass
     {
         $id     = 0;
         $result = $this->patch(
-            $this->baseUrl . '/cert/' . $id,
+            $this->baseUrl . '/proj/' . $id,
             [
                 'id'           => $id,
                 'image'        => 1234,
@@ -112,7 +112,7 @@ class CertExceptionTest extends BaseFeatureTestClass
         $this->assertNotEmpty($content['message']);
         $this->assertEmpty($content['data']);
         $this->assertDatabaseMissing(
-            'certifications',
+            'projects',
             ['image' => 1234]
         );
         $this->assertDatabaseMissing(
@@ -130,7 +130,7 @@ class CertExceptionTest extends BaseFeatureTestClass
     {
         $id     = 0;
         $result = $this->delete(
-            $this->baseUrl . '/cert/' . $id,
+            $this->baseUrl . '/proj/' . $id,
             [],
             [
                 'Authorization' => 'Bearer ' . $this->token,
