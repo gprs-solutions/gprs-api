@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CertController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\EduController;
 use App\Http\Controllers\ExpController;
 use App\Http\Controllers\ProjController;
@@ -139,5 +140,15 @@ Route::prefix('proj')->middleware([Authenticate::class])->group(
         // Matches /api/proj/{id}.
         Route::delete('/{id}', [ProjController::class, 'suspend'])
             ->middleware(Authorize::class . ':GPRS_PROJ_DELETE');
+    }
+);
+
+Route::prefix('contact')->group(
+    function () {
+        // Matches /api/contact/{id}.
+        Route::get('/{id}', [ContactController::class, 'get']);
+
+        // Matches /api/contact.
+        Route::post('/', [ContactController::class, 'create']);
     }
 );

@@ -21,7 +21,7 @@ return Application::configure(basePath: dirname(__DIR__))
         function (Exceptions $exceptions) {
             $exceptions->render(
                 function (Exception $e) {
-                    Log::critical(gethostname() . ' [' . get_class() . '::' . __FUNCTION__ . '] Exception: ' . $e->getMessage());
+                    Log::critical(gethostname() . ' [' . __FUNCTION__ . '] Exception: ' . $e->getMessage());
                     // Generic error message to prevent user from seeing error.
                     return response()->json(
                         status: 500,
