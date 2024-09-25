@@ -31,6 +31,23 @@ class ExpService
     }
 
     /**
+     * Tries to list all saved exps.
+     *
+     * @return ServiceResult The result of the operation.
+     */
+    public function list(): ServiceResult
+    {
+        try {
+            $exp = $this->model->get();
+        } catch (Exception $e) {
+            Log::error(gethostname() . ' [' . get_class() . '::' . __FUNCTION__ . '] Exception: ' . $e->getMessage());
+            return ServiceResult::failure(__('messages.failedOperation'));
+        }
+
+        return ServiceResult::success(data: ExperienceResource::collection($exp));
+    }
+
+    /**
      * Tries to get data from a specific exp.
      *
      * @param string $id The exp's id.

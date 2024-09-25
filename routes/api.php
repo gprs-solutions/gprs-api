@@ -46,6 +46,9 @@ Route::prefix('user')->middleware([Authenticate::class])->group(
     }
 );
 
+// Matches /api/exp/{id}.
+Route::get('/exp/', [ExpController::class, 'list']);
+
 Route::prefix('exp')->middleware([Authenticate::class])->group(
     function () {
         // Matches /api/exp/{id}.

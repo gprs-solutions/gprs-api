@@ -21,7 +21,22 @@ class ExperienceResource extends JsonResource
             'image'        => $this->resource->image,
             'start'        => $this->resource->start,
             'end'          => $this->resource->end,
-            'descriptions' => DescriptionResource::collection($this->descriptions()->get()),
+            'descriptions' => $this->transformDescriptions(DescriptionResource::collection($this->descriptions()->get())),
         ];
+    }
+
+    /**
+     * Transforms the descriptions array into an associative array keyed by 'lang'.
+     *
+     * @param array $descriptions
+     * @return array
+     */
+    private function transformDescriptions($descriptions): array
+    {
+        $transformed = [];
+        foreach ($descriptions as $description) {
+            $transformed[$description['lang']] = $description;
+        }
+        return $transformed;
     }
 }
