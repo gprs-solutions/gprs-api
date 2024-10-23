@@ -1,2 +1,2 @@
 <?php
-shell_exec('composer install');
+system('composer install');
