@@ -65,3 +65,8 @@ runs:
       shell: bash
       run: |
         ssh -p 2222 ${{ inputs.SSH_USER }} "cd ./${{ inputs.APP_URL }} && php composer.php && rm -f composer.php"
+
+    - name: Delete composer files
+      shell: bash
+      run: |
+        ssh -p 2222 ${{ inputs.SSH_USER }} "cd ./${{ inputs.APP_URL }} && rm -f composer.lock && rm -f composer.json"

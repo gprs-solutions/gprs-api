@@ -96,6 +96,8 @@ runs:
         rm -rf composer.lock
         rm -rf docker-compose.yaml
         rm -rf Dockerfile
+        rm -rf phpcs.xml
+        rm -rf phpunit.xml
 
     - name: 🏗️ Build .env file
       shell: bash
@@ -125,7 +127,7 @@ runs:
 
     - name: compress project
       shell: bash
-      run: tar -czf laravel-build.tar.gz ./*
+      run: tar -czf laravel-build.tar.gz .[!.]* *
     
     - name: ⬆️ Upload build
       uses: actions/upload-artifact@v4
