@@ -21,21 +21,16 @@ inputs:
   SSH_USER:
     description: 'The SSH user'
     required: true
-  SSH_PASSWORD:
-    description: 'The SSH password'
+  APP_URL:
+    description: 'The Appilcation url'
     required: true
+
 
 runs:
   using: 'composite'
   steps:
     - name: 📥 Checkout code
       uses: actions/checkout@v4
-
-    - name: 📦 Download build artifacts
-      uses: actions/download-artifact@v4
-      with:
-        name: laravel-build
-        path: ./laravel-build/
 
     - name: Set up SSH agent
       uses: webfactory/ssh-agent@v0.5.3
@@ -47,11 +42,12 @@ runs:
       run: |
         ssh-keyscan -p 2222 ${{ inputs.SSH_HOST }} >> ~/.ssh/known_hosts
 
-    - name: Test SSH
-      shell: bash
-      run: | 
-        ssh -p 2222 ${{ inputs.SSH_USER }} 'whoami | ls -al'
-    
+    - name: 📦 Download build artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: laravel-build
+        path: ./laravel-build/
+
     - name: 🔄 Sync code with server
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
       with:
@@ -59,3 +55,12 @@ runs:
         username: ${{ inputs.ftp-user }}
         password: ${{ inputs.ftp-password }}
         local-dir: ./laravel-build/
+
+    - name: Extract Laravel project
+      shell: bash
+      run: |
+        ssh -p 2222 ${{ inputs.SSH_USER }} "tar -xzf ./${{ APP_URL }}/laravel-build.tar.gz -C ./${{ APP_URL }} && rm -f ./${{ APP_URL }}/laravel-build.tar.gz"
+
+    
+    
+    
