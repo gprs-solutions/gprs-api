@@ -49,7 +49,7 @@ runs:
         echo "${{ inputs.SSH_PASSPHRASE }}" | ssh-add ~/.ssh/id_rsa
     
         # Add your server to known_hosts to avoid interaction
-        ssh-keyscan your_host >> ~/.ssh/known_hosts
+        ssh-keyscan gprssolutions.com.br >> ~/.ssh/known_hosts
     
     - name: 🔄 Sync code with server
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
