@@ -34,6 +34,24 @@ class SkillController
     }
 
     /**
+     * Validates if a request to list all skills is valid.
+     *
+     * @param Request $request Request with the skill info.
+     *
+     * @return JsonResponse
+     */
+    public function list(Request $request): JsonResponse
+    {
+        $result = $this->service->list();
+
+        if (!$result->success) {
+            return $this->badRequest($result->message);
+        }
+
+        return $this->success(data: [...$result->data]);
+    }
+
+    /**
      * Validates if a request to get an experience is valid.
      *
      * @param Request $request Request with the experience info.

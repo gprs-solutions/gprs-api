@@ -87,7 +87,9 @@ class ExpService
             DB::beginTransaction();
             $this->model->image = $image;
             $this->model->start = $start;
-            $this->model->end   = $end;
+            if (!empty($end) && $end) {
+                $this->model->end   = $end;
+            }
             $this->model->save();
 
             foreach ($descriptions as $description) {
