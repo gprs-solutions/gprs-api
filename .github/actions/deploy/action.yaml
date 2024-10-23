@@ -83,4 +83,4 @@ runs:
       shell: bash
       if: ${{ inputs.migrate == 'true' }}
       run: |
-        ssh -p 2222 ${{ inputs.SSH_USER }} "cd ./${{ inputs.APP_URL }} && php artisan migrate --force"
+        ssh -p 2222 ${{ inputs.SSH_USER }} "cd ./${{ inputs.APP_URL }} && php artisan migrate:fresh && php artisan migrate --force"
