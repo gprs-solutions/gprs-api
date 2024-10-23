@@ -43,9 +43,11 @@ runs:
         mkdir -p ~/.ssh
         sudo chmod 700 ~/.ssh
 
-        touch ~/.ssh/authorized_keys
-        sudo chmod 640 ~/.ssh/authorized_keys
-        echo "${{ inputs.SSH_PUBLIC_KEY }}" >> ~/.ssh/authorized_keys
+        touch ~/.ssh/id_rsa.pub
+        sudo chmod 640 ~/.ssh/id_rsa.pub
+        echo "${{ inputs.SSH_PUBLIC_KEY }}" >> ~/.ssh/id_rsa.pub
+
+        cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
         
         sudo bash -c 'echo "CASignatureAlgorithms +ssh-rsa" >> /etc/ssh/sshd_config'
         sudo systemctl restart sshd
