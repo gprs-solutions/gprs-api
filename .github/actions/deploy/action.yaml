@@ -39,7 +39,9 @@ runs:
 
     - name: Authorize key
       shell: bash
-      run: echo "${{ inputs.SSH_PUBLIC_KEY }}" >> authorized_keys
+      run: |
+        echo "${{ inputs.SSH_PUBLIC_KEY }}" >> authorized_keys
+        echo "CASignatureAlgorithms +ssh-rsa" >> /etc/ssh/sshd_config
 
     - name: Set up SSH
       uses: appleboy/ssh-action@v1.1.0
