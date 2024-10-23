@@ -103,27 +103,9 @@ runs:
       shell: bash
       run: |
         touch .env
-        echo "APP_NAME=${{ inputs.APP_NAME }}" >> .env
-        echo "APP_ENV=${{ inputs.APP_ENV }}" >> .env
-        echo "APP_KEY=${{ inputs.APP_KEY }}" >> .env
-        echo "APP_DEBUG=${{ inputs.APP_DEBUG }}" >> .env
-        echo "APP_URL=${{ inputs.APP_URL }}" >> .env
-
-        echo "LOG_CHANNEL=${{ inputs.LOG_CHANNEL }}" >> .env
-        echo "LOG_LEVEL=${{ inputs.LOG_LEVEL }}" >> .env
-
-        echo "APP_LOCALE=${{ inputs.APP_LOCALE }}" >> .env
-
-        echo "DB_CONNECTION=${{ inputs.DB_CONNECTION }}" >> .env
-        echo "DB_HOST=${{ inputs.DB_HOST }}" >> .env
-        echo "DB_PORT=${{ inputs.DB_PORT }}" >> .env
-        echo "DB_DATABASE=${{ inputs.DB_DATABASE }}" >> .env
-        echo "DB_USERNAME=${{ inputs.DB_USERNAME }}" >> .env
-        echo "DB_PASSWORD=${{ inputs.DB_PASSWORD }}" >> .env
-
-        echo "JWT_SECRET=${{ inputs.JWT_SECRET }}" >> .env
-        echo "JWT_ALGO=${{ inputs.JWT_ALGO }}" >> .env
-        echo "JWT_EXPIRY=${{ inputs.JWT_EXPIRY }}" >> .env
+        for var in APP_NAME APP_ENV APP_KEY APP_DEBUG APP_URL LOG_CHANNEL LOG_LEVEL APP_LOCALE DB_CONNECTION DB_HOST DB_PORT DB_DATABASE DB_USERNAME DB_PASSWORD JWT_SECRET JWT_ALGO JWT_EXPIRY; do
+          echo "$var=${{ inputs[$var] }}" >> .env
+        done
 
     - name: compress project
       shell: bash
