@@ -41,12 +41,12 @@ runs:
         mkdir -p ~/.ssh
     
         # Write the private key to a file
-        echo "${{ inputs.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
+        echo "${{ inputs.SSH_PRIVATE_KEY }}" > ~/.ssh/github
+        chmod 600 ~/.ssh/github
     
         # Start the ssh-agent and add the private key with the passphrase
         eval "$(ssh-agent -s)"
-        echo "${{ inputs.SSH_PASSPHRASE }}" | ssh-add ~/.ssh/id_rsa
+        echo "${{ inputs.SSH_PASSPHRASE }}" | ssh-add ~/.ssh/github
     
         # Add your server to known_hosts to avoid interaction
         ssh-keyscan gprssolutions.com.br >> ~/.ssh/known_hosts
