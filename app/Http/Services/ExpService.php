@@ -88,7 +88,7 @@ class ExpService
             $this->model->image = $image;
             $this->model->start = $start;
             if (!empty($end) && $end) {
-                $this->model->end   = $end;
+                $this->model->end = $end;
             }
             $this->model->save();
 

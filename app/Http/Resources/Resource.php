@@ -9,7 +9,8 @@ class Resource extends JsonResource
     /**
      * Transforms the descriptions array into an associative array keyed by 'lang'.
      *
-     * @param array $descriptions
+     * @param  array $descriptions Descrptions to be transformed.
+     * 
      * @return array
      */
     protected function transformDescriptions($descriptions): array

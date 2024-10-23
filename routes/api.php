@@ -58,9 +58,8 @@ Route::prefix('exp')->middleware([Authenticate::class])->group(
             ->middleware(Authorize::class . ':GPRS_EXP_GET');
 
         // Matches /api/exp.
-        //Route::post('/', [ExpController::class, 'create'])
-        //  ->middleware(Authorize::class . ':GPRS_EXP_CREATE');
-
+        // Route::post('/', [ExpController::class, 'create'])
+        // ->middleware(Authorize::class . ':GPRS_EXP_CREATE');
         // Matches /api/exp/{id}.
         Route::patch('/{id}', [ExpController::class, 'update'])
             ->middleware(Authorize::class . ':GPRS_EXP_UPDATE');
@@ -145,9 +144,8 @@ Route::prefix('proj')->middleware([Authenticate::class])->group(
             ->middleware(Authorize::class . ':GPRS_PROJ_GET');
 
         // Matches /api/proj.
-        //Route::post('/', [ProjController::class, 'create'])
-        //   ->middleware(Authorize::class . ':GPRS_PROJ_CREATE');
-
+        // Route::post('/', [ProjController::class, 'create'])
+        // ->middleware(Authorize::class . ':GPRS_PROJ_CREATE');
         // Matches /api/proj/{id}.
         Route::patch('/{id}', [ProjController::class, 'update'])
             ->middleware(Authorize::class . ':GPRS_PROJ_UPDATE');
