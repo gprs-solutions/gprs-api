@@ -60,3 +60,8 @@ runs:
       shell: bash
       run: |
         ssh -p 2222 ${{ inputs.SSH_USER }} "tar -xzf ./${{ inputs.APP_URL }}/laravel-build.tar.gz -C ./${{ inputs.APP_URL }} && rm -f ./${{ inputs.APP_URL }}/laravel-build.tar.gz"
+
+    - name: Install dependencies
+      shell: bash
+      run: |
+        ssh -p 2222 ${{ inputs.SSH_USER }} "cd ./${{ inputs.APP_URL }} && composer install --no-dev"

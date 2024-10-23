@@ -90,6 +90,21 @@ runs:
       shell: bash
       run: composer install
 
+    - name: 🧹 Delete non necessary folders
+      shell: bash
+      run: |
+        rm -rf storage/logs/
+        rm -rf storage/framework/cache/
+        rm -rf storage/framework/sessions/
+        rm -rf .git/
+        rm -rf tests/
+        rm -rf public/hot
+        rm -rf vendor/
+        rm -rf public/
+        rm -rf composer.lock
+        rm -rf docker-compose.yaml
+        rm -rf Dockerfile
+
     - name: 🏗️ Build .env file
       shell: bash
       run: |
@@ -115,17 +130,6 @@ runs:
         echo "JWT_SECRET=${{ inputs.JWT_SECRET }}" >> .env
         echo "JWT_ALGO=${{ inputs.JWT_ALGO }}" >> .env
         echo "JWT_EXPIRY=${{ inputs.JWT_EXPIRY }}" >> .env
-
-    - name: 🧹 Delete non necessary folders
-      shell: bash
-      run: |
-        rm -rf storage/logs/
-        rm -rf storage/framework/cache/
-        rm -rf storage/framework/sessions/
-        rm -rf .git/
-        rm -rf tests/
-        rm -rf public/hot
-        rm -rf vendor/
 
     - name: compress project
       shell: bash
