@@ -40,7 +40,7 @@ runs:
     - name: enable ssh-rsa
       shell: bash
       run: |
-        sudo echo "CASignatureAlgorithms +ssh-rsa" >> /etc/ssh/sshd_config
+        sudo bash -c 'echo "CASignatureAlgorithms +ssh-rsa" >> /etc/ssh/sshd_config'
         sudo systemctl restart sshd
 
     - name: Set up SSH
