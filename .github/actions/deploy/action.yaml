@@ -40,12 +40,12 @@ runs:
     - name: Set up SSH agent
       uses: webfactory/ssh-agent@v0.5.3
       with:
-        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+        ssh-private-key: ${{ inputs.SSH_PRIVATE_KEY }}
 
     - name: Test SSH
       shell: bash
       run: | 
-        ssh -p 2222 ${{ secrets.SSH_USER }} 'whoami | ls -al'
+        ssh -p 2222 ${{ inputs.SSH_USER }} 'whoami | ls -al'
     
     - name: 🔄 Sync code with server
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
