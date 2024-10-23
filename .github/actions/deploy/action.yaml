@@ -42,6 +42,7 @@ runs:
         key: ${{ inputs.SSH_private_key }}
         port: 2222
         passphrase: ${{ inputs.SSH_PASSPHRASE }}
+        use_insecure_cipher: true
         script: |
           whoami
           ls -al
