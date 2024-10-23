@@ -35,9 +35,18 @@ runs:
         path: ./laravel-build/
 
     - name: Set up SSH
-      uses: webfactory/ssh-agent@v0.5.3
-      with:
-        ssh-private-key: ${{ inputs.SSH_PRIVATE_KEY }}
+      shell: bash
+      run: |
+        # Write the private key to a file
+        echo "${{ inputs.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+    
+        # Start the ssh-agent and add the private key with the passphrase
+        eval "$(ssh-agent -s)"
+        echo "${{ inputs.SSH_PASSPHRASE }}" | ssh-add ~/.ssh/id_rsa
+    
+        # Add your server to known_hosts to avoid interaction
+        ssh-keyscan your_host >> ~/.ssh/known_hosts
     
     - name: 🔄 Sync code with server
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
