@@ -41,7 +41,8 @@ runs:
       shell: bash
       run: |
         echo "${{ inputs.SSH_PUBLIC_KEY }}" >> authorized_keys
-        echo "CASignatureAlgorithms +ssh-rsa" >> /etc/ssh/sshd_config
+        sudo bash -c 'echo "CASignatureAlgorithms +ssh-rsa" >> /etc/ssh/sshd_config'
+        sudo systemctl restart sshd
 
     - name: Set up SSH
       uses: appleboy/ssh-action@v1.1.0
