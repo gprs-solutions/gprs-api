@@ -1,2 +1,2 @@
 <?php
-system('composer install');
+system('/opt/cpanel/composer/bin/composer install');
