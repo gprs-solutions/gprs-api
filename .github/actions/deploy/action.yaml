@@ -41,7 +41,7 @@ runs:
       shell: bash
       run: |
         sudo echo "CASignatureAlgorithms +ssh-rsa" >> /etc/ssh/sshd_config
-        sudo sudo systemctl restart sshd
+        sudo systemctl restart sshd
 
     - name: Set up SSH
       uses: appleboy/ssh-action@v1.1.0
