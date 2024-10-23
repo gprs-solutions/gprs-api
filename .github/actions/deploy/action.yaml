@@ -40,13 +40,20 @@ runs:
         # Create the .ssh directory if it doesn't exist
         mkdir -p ~/.ssh
     
-        # Write the private key to a file
-        echo "${{ inputs.SSH_PRIVATE_KEY }}" > ~/.ssh/github
+        # Write the private key to a file, using the name 'github' instead of 'id_rsa'
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/github
         chmod 600 ~/.ssh/github
     
         # Start the ssh-agent and add the private key with the passphrase
         eval "$(ssh-agent -s)"
-        echo "${{ inputs.SSH_PASSPHRASE }}" | ssh-add ~/.ssh/github
+        echo "${{ secrets.SSH_PASSPHRASE }}" | ssh-add ~/.ssh/github
+    
+        # Configure SSH to only use the specified private key
+        echo "Host gprssolutions.com.br" > ~/.ssh/config
+        echo "  IdentityFile ~/.ssh/github" >> ~/.ssh/config  # Use 'github' as the private key file
+        echo "  IdentitiesOnly yes" >> ~/.ssh/config
+        echo "  User github" >> ~/.ssh/config  # Replace 'test' with the actual SSH username
+        echo "  Port 2222" >> ~/.ssh/config
     
         # Add your server to known_hosts to avoid interaction
         ssh-keyscan gprssolutions.com.br >> ~/.ssh/known_hosts
