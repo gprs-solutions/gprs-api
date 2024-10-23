@@ -54,4 +54,4 @@ jobs:
         SSH_USER: ${{secrets.SSH_USER}}
         SSH_PASSPHRASE: ${{secrets.SSH_PASSPHRASE}}
         SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
-        SSH_PUBLIC_KEY: ${{vars.SSH_PUBLIC_KEY}}
+        SSH_PASSWORD: ${{secrets.SSH_PASSWORD}}

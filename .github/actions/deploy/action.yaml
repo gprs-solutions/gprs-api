@@ -15,14 +15,14 @@ inputs:
   SSH_PRIVATE_KEY:
     description: 'The SSH private key'
     required: true
-  SSH_PUBLIC_KEY:
-    description: 'The SSH public key'
-    required: true
   SSH_PASSPHRASE:
     description: 'The SSH passphrase'
     required: true
   SSH_USER:
     description: 'The SSH user'
+    required: true
+  SSH_PASSWORD:
+    description: 'The SSH password'
     required: true
 
 runs:
@@ -42,6 +42,7 @@ runs:
       with:
         host: gprssolutions.com.br
         username: ${{ inputs.SSH_USER }}
+        password: ${{ inputs.SSH_PASSWORD }}
         key: ${{ inputs.SSH_PRIVATE_KEY }}
         port: 2222
         use_insecure_cipher: true
