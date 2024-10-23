@@ -125,14 +125,6 @@ runs:
         rm -rf .git/
         rm -rf tests/
         rm -rf public/hot
-
-    - name: 🧼 Clean all caches
-      shell: bash
-      run: |
-        php artisan cache:clear
-        php artisan config:clear
-        php artisan view:clear
-        php artisan route:clear
     
     - name: ⬆️ Upload build
       uses: actions/upload-artifact@v4
