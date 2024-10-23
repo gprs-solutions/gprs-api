@@ -61,17 +61,7 @@ runs:
       run: |
         ssh -p 2222 ${{ inputs.SSH_USER }} "tar -xzf ./${{ inputs.APP_URL }}/laravel-build.tar.gz -C ./${{ inputs.APP_URL }} && rm -f ./${{ inputs.APP_URL }}/laravel-build.tar.gz"
 
-    - name: Create composer install file
-      shell: bash
-      run: |
-        ssh -p 2222 ${{ inputs.SSH_USER }} "cd ./${{ inputs.APP_URL }} && \
-        cat << 'EOF' > composer.php
-        <?php
-        shell_exec('composer install');
-        ?>
-        EOF"
-
     - name: Install dependencies
       shell: bash
       run: |
-        ssh -p 2222 ${{ inputs.SSH_USER }} "cd ./${{ inputs.APP_URL }} && php composer.php && rm -f composer.php'"
+        ssh -p 2222 ${{ inputs.SSH_USER }} "cd ./${{ inputs.APP_URL }} && php composer.php && rm -f composer.php"
