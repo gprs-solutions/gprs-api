@@ -24,7 +24,10 @@ inputs:
   APP_URL:
     description: 'The Application url'
     required: true
-
+  migrate:
+    description: 'Wheather the user wants to make a migration after deploy or not'
+    required: false
+    default: 'false'
 
 runs:
   using: 'composite'
@@ -32,12 +35,12 @@ runs:
     - name: 📥 Checkout code
       uses: actions/checkout@v4
 
-    - name: Set up SSH agent
+    - name: 🔑 Set up SSH agent
       uses: webfactory/ssh-agent@v0.5.3
       with:
         ssh-private-key: ${{ inputs.SSH_PRIVATE_KEY }}
 
-    - name: Add server to known_hosts
+    - name: 🔐 Add server to known_hosts
       shell: bash
       run: |
         ssh-keyscan -p 2222 ${{ inputs.SSH_HOST }} >> ~/.ssh/known_hosts
@@ -56,17 +59,28 @@ runs:
         password: ${{ inputs.ftp-password }}
         local-dir: ./laravel-build/
 
-    - name: Extract Laravel project
+    - name: 📂 Extract Laravel project
       shell: bash
       run: |
         ssh -p 2222 ${{ inputs.SSH_USER }} "tar -xzf ./${{ inputs.APP_URL }}/laravel-build.tar.gz -C ./${{ inputs.APP_URL }} && rm -f ./${{ inputs.APP_URL }}/laravel-build.tar.gz"
 
-    - name: Install dependencies
+    - name: 📦 Install dependencies
       shell: bash
       run: |
-        ssh -p 2222 ${{ inputs.SSH_USER }} "cd ./${{ inputs.APP_URL }} && php composer.php && rm -f composer.php"
+        ssh -p 2222 ${{ inputs.SSH_USER }} "cd ./${{ inputs.APP_URL }} && /opt/cpanel/composer/bin/composer install"
 
-    - name: Delete composer files
+    - name: 🧹 Delete composer files
       shell: bash
       run: |
         ssh -p 2222 ${{ inputs.SSH_USER }} "cd ./${{ inputs.APP_URL }} && rm -f composer.lock && rm -f composer.json"
+
+    - name: 🧼 Clear Laravel cache
+      shell: bash
+      run: |
+        ssh -p 2222 ${{ inputs.SSH_USER }} "cd ./${{ inputs.APP_URL }} && php artisan config:clear && php artisan cache:clear"
+
+    - name: 🛠️ Migrate database
+      shell: bash
+      if: ${{ inputs.migrate == 'true' }}
+      run: |
+        ssh -p 2222 ${{ inputs.SSH_USER }} "cd ./${{ inputs.APP_URL }} && php artisan migrate --force"
