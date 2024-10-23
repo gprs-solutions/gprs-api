@@ -41,7 +41,7 @@ runs:
         username: ${{ inputs.SSH_USER }}
         key: ${{ inputs.SSH_private_key }}
         port: 2222
-        password: ${{ inputs.SSH_PASSPHRASE }}
+        passphrase: ${{ inputs.SSH_PASSPHRASE }}
         script: |
           whoami
           ls -al
