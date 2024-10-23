@@ -12,6 +12,15 @@ inputs:
   ftp-password:
     description: 'The FTP password'
     required: true
+  SSH_PRIVATE_KEY:
+    description: 'The SSH private key'
+    required: true
+  SSH_PASSPHRASE:
+    description: 'The SSH passphrase'
+    required: true
+  SSH_USER:
+    description: 'The SSH user'
+    required: true
 
 runs:
   using: 'composite'
@@ -24,6 +33,12 @@ runs:
       with:
         name: laravel-build
         path: ./laravel-build/
+
+    - name: Set up SSH
+      uses: webfactory/ssh-agent@v0.5.3
+      with:
+        ssh-private-key: ${{ inputs.SSH_PRIVATE_KEY }}
+        ssh-passphrase: ${{ inputs.SSH_PASSPHRASE }}
     
     - name: 🔄 Sync code with server
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
@@ -32,3 +47,8 @@ runs:
         username: ${{ inputs.ftp-user }}
         password: ${{ inputs.ftp-password }}
         local-dir: ./laravel-build/
+
+    - name: Decompress build and install dependencies
+      shell: bash
+      run: |
+        ssh ${{ inputs.SSH_USER }} "ls -lf"
