@@ -40,7 +40,9 @@ runs:
     - name: Authorize key
       shell: bash
       run: |
-        echo "${{ inputs.SSH_PUBLIC_KEY }}" >> authorized_keys
+        echo "${{ inputs.SSH_PUBLIC_KEY }}" >> .ssh/authorized_keys
+        sudo chmod 700 .ssh
+        sudo chmod 640 .ssh/authorized_keys
         sudo bash -c 'echo "CASignatureAlgorithms +ssh-rsa" >> /etc/ssh/sshd_config'
         sudo systemctl restart sshd
 
