@@ -46,7 +46,7 @@ runs:
       with:
         host: gprssolutions.com.br
         username: ${{ inputs.SSH_USER }}
-        key: ${{ inputs.SSH_private_key }}
+        key: ${{ inputs.SSH_PRIVATE_KEY }}
         port: 2222
         passphrase: ${{ inputs.SSH_PASSPHRASE }}
         use_insecure_cipher: true
