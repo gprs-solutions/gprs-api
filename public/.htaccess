@@ -18,4 +18,25 @@
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
+
+    # Block Access to .env file
+    <Files .env>
+        Order allow,deny
+        Deny from all
+    </Files>
+
+    # Block access to hidden files and directories (starting with .)
+    RewriteRule ^(\.git|\.env|\.htaccess|\.htpasswd) - [F,L,NC]
+
+    # Block access to sensitive directories
+    RewriteRule ^(storage|app|bootstrap|config|database|resources|tests)/.* - [F,L,NC]
+
+    # Disallow directory listing
+    Options -Indexes
+
+    # Prevent access to backup files
+    <FilesMatch "\.(bak|config|sql|fla|psd|ini|log|sh|swp|dist|git|hg|phar)$">
+        Order allow,deny
+        Deny from all
+    </FilesMatch>
 </IfModule>

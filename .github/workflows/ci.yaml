@@ -9,21 +9,21 @@ jobs:
   code-style:
     runs-on: ubuntu-latest
     steps:
-      - name: checkout
+      - name: 🛠️ Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up PHP
+      - name: 🚀 Set up PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.3'
           tools: composer
 
-      - name: Install dependencies
+      - name: 📦 Install dependencies
         run: |
           rm -rf ./composer.lock
           composer install
           
-      - name: Run sniffer
+      - name: 👃 Run code sniffer
         run: composer run:sniffer   
 
   tests:
@@ -47,22 +47,22 @@ jobs:
           MYSQL_ROOT_PASSWORD: root
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
     steps:
-      - name: checkout
+      - name: 🛠️ Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up PHP
+      - name: 🚀 Set up PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.3'
           coverage: xdebug
           tools: composer
 
-      - name: Install dependencies
+      - name: 📦 Install dependencies
         run: |
           rm -rf ./composer.lock
           composer install
 
-      - name: Run tests
+      - name: 🧪 Run tests
         run: | 
           composer run:tests:${{ matrix.combination.suite }} | tee coverage.txt
           test ${PIPESTATUS[0]} -eq 0
@@ -78,7 +78,7 @@ jobs:
           JWT_ALGO: ${{ secrets.JWT_ALGO }}
           APP_URL: http://localhost
       
-      - name: Check percentage
+      - name: 🔍 Check coverage percentage
         id: percentages
         run: |
           grep "^[[:space:]]*Lines:" ./coverage.txt > coverage_percent.txt
@@ -90,7 +90,7 @@ jobs:
             echo "${{ matrix.combination.suite }}=$coverage_value_float" >> $GITHUB_OUTPUT
             exit 1
           else
-            echo "Tests ran successfully with $coverage_value% coverage"
+            echo "✅ Tests ran successfully with $coverage_value% coverage"
             echo "${{ matrix.combination.suite }}=$coverage_value_float" >> $GITHUB_OUTPUT
           fi
 
@@ -103,7 +103,7 @@ jobs:
     if: always()
     needs: ["tests"]
     steps:
-      - name: 'Post comment'
+      - name: 💬 Post comment
         uses: actions/github-script@v7
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
@@ -112,5 +112,5 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
-              body: "### Tests coverages\n\n| **Test type** | **Percentage** |\n| ------------- | -------------- |\n| Unit          | ${{needs.tests.outputs.unit}}% |\n| Feature       | ${{needs.tests.outputs.feature}}% |"
+              body: "### 📊 Tests coverages\n\n| **Test type** | **Percentage** |\n| ------------- | -------------- |\n| Unit          | ${{needs.tests.outputs.unit}}% |\n| Feature       | ${{needs.tests.outputs.feature}}% |"
             })
