@@ -51,3 +51,6 @@ jobs:
         ftp-server: ${{ vars.FTP_SERVER_DEV }}
         ftp-user: ${{ secrets.FTP_USER_DEV }}
         ftp-password: ${{ secrets.FTP_PASSWORD_DEV }}
+        SSH_USER: ${{secrets.SSH_USER}}
+        SSH_PASSPHRASE: ${{secrets.SSH_PASSPHRASE}}
+        SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
