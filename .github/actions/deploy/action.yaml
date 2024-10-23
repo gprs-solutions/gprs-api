@@ -40,13 +40,13 @@ runs:
         # Create the .ssh directory if it doesn't exist
         mkdir -p ~/.ssh
     
-        # Write the private key to a file, using the name 'github' instead of 'id_rsa'
-        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/github
+        # Write the private key to a file
+        echo "${{ inputs.SSH_PRIVATE_KEY }}" > ~/.ssh/github
         chmod 600 ~/.ssh/github
     
         # Start the ssh-agent and add the private key with the passphrase
         eval "$(ssh-agent -s)"
-        echo "${{ secrets.SSH_PASSPHRASE }}" | ssh-add ~/.ssh/github
+        echo "${{ inputs.SSH_PASSPHRASE }}" | ssh-add ~/.ssh/github
     
         # Configure SSH to only use the specified private key
         echo "Host gprssolutions.com.br" > ~/.ssh/config
