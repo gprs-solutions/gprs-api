@@ -40,12 +40,12 @@ runs:
         mkdir -p ~/.ssh
     
         # Write the private key to a file
-        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        echo "${{ inputs.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
     
         # Start the ssh-agent and add the private key with the passphrase
         eval "$(ssh-agent -s)"
-        echo "${{ secrets.SSH_PASSPHRASE }}" | ssh-add ~/.ssh/id_rsa
+        echo "${{ inputs.SSH_PASSPHRASE }}" | ssh-add ~/.ssh/id_rsa
     
         # Add your server to known_hosts to avoid interaction
         ssh-keyscan your_host >> ~/.ssh/known_hosts
