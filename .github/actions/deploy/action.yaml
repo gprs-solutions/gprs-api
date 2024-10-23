@@ -15,8 +15,8 @@ inputs:
   SSH_PRIVATE_KEY:
     description: 'The SSH private key'
     required: true
-  SSH_PASSPHRASE:
-    description: 'The SSH passphrase'
+  SSH_HOST:
+    description: 'The SSH host'
     required: true
   SSH_USER:
     description: 'The SSH user'
@@ -45,7 +45,7 @@ runs:
     - name: Add server to known_hosts
       shell: bash
       run: |
-        ssh-keyscan -p 2222 gprs.solutions.com.br >> ~/.ssh/known_hosts
+        ssh-keyscan -p 2222 ${{ inputs.SSH_HOST }} >> ~/.ssh/known_hosts
 
     - name: Test SSH
       shell: bash
