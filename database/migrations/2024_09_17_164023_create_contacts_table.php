@@ -14,12 +14,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create(
-            'experiences',
+            'contacts',
             function (Blueprint $table) {
                 $table->id();
-                $table->string("image", 255);
-                $table->timestamp('start');
-                $table->timestamp('end')->nullable();
+                $table->string('email', 100);
+                $table->string('name', 100);
+                $table->string('message', 1000);
                 $table->timestamps();
                 $table->softDeletes();
             }
@@ -33,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('experiences');
+        Schema::dropIfExists('contacts');
     }
 };

@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Description;
+use App\Models\Contact;
 use Illuminate\Database\Seeder;
 
-class ExperienceSeeder extends Seeder
+class ContactSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,6 +14,6 @@ class ExperienceSeeder extends Seeder
      */
     public function run(): void
     {
-        Description::factory()->forExp()->count(5)->create();
+        Contact::factory()->create();
     }
 }

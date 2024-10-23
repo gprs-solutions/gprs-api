@@ -30,6 +30,23 @@ class SkillService
     }
 
     /**
+     * Tries to list all saved skills.
+     *
+     * @return ServiceResult The result of the operation.
+     */
+    public function list(): ServiceResult
+    {
+        try {
+            $skill = $this->model->get();
+        } catch (Exception $e) {
+            Log::error(gethostname() . ' [' . get_class() . '::' . __FUNCTION__ . '] Exception: ' . $e->getMessage());
+            return ServiceResult::failure(__('messages.failedOperation'));
+        }
+
+        return ServiceResult::success(data: SkillResource::collection($skill));
+    }
+
+    /**
      * Tries to get data from a specific exp.
      *
      * @param string $id The exp's id.

@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ExperienceResource extends JsonResource
+class ExperienceResource extends Resource
 {
     /**
      * Transform the resource into an array.
@@ -21,7 +21,7 @@ class ExperienceResource extends JsonResource
             'image'        => $this->resource->image,
             'start'        => $this->resource->start,
             'end'          => $this->resource->end,
-            'descriptions' => DescriptionResource::collection($this->descriptions()->get()),
+            'descriptions' => $this->transformDescriptions(DescriptionResource::collection($this->descriptions()->get())),
         ];
     }
 }

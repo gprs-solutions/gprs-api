@@ -20,6 +20,7 @@ class DescriptionResource extends JsonResource
             'id'          => $this->resource->id,
             'lang'        => $this->resource->lang,
             'description' => $this->resource->description,
+            'name'        => $this->resource->name,
             'type'        => $this->resource->type,
         ];
     }

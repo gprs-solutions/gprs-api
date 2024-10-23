@@ -9,7 +9,6 @@ use App\Http\Services\ExpService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Arr;
-use Illuminate\Validation\Rule;
 
 class ExpController
 {
@@ -32,6 +31,24 @@ class ExpController
     public function __construct(ExpService $service)
     {
         $this->service = $service;
+    }
+
+    /**
+     * Validates if a request to list all experiences is valid.
+     *
+     * @param Request $request Request with the experience info.
+     *
+     * @return JsonResponse
+     */
+    public function list(Request $request): JsonResponse
+    {
+        $result = $this->service->list();
+
+        if (!$result->success) {
+            return $this->badRequest($result->message);
+        }
+
+        return $this->success(data: [...$result->data]);
     }
 
     /**
@@ -84,11 +101,11 @@ class ExpController
             [
                 'image'                      => 'required|min:2|max:255',
                 'start'                      => 'required|date_format:Y-m-d',
-                'end'                        => 'required|date_format:Y-m-d|after:start',
+                'end'                        => 'sometimes|date_format:Y-m-d|after:start',
                 'descriptions'               => 'required|array',
                 'descriptions.*.lang'        => 'required|size:2',
                 'descriptions.*.name'        => 'required|max:75',
-                'descriptions.*.description' => 'required|max:1000',
+                'descriptions.*.description' => 'required|max:3000',
             ]
         );
 
@@ -105,7 +122,7 @@ class ExpController
         $result = $this->service->create(
             $request->input('image'),
             $request->input('start'),
-            $request->input('end'),
+            $request->input('end', ''),
             $request->input('descriptions', [])
         );
 

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CertController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\EduController;
 use App\Http\Controllers\ExpController;
 use App\Http\Controllers\ProjController;
@@ -45,6 +46,11 @@ Route::prefix('user')->middleware([Authenticate::class])->group(
     }
 );
 
+// Matches /api/exp/{id}.
+Route::get('/exp/', [ExpController::class, 'list']);
+
+Route::post('/exp/', [ExpController::class, 'create']);
+
 Route::prefix('exp')->middleware([Authenticate::class])->group(
     function () {
         // Matches /api/exp/{id}.
@@ -52,9 +58,8 @@ Route::prefix('exp')->middleware([Authenticate::class])->group(
             ->middleware(Authorize::class . ':GPRS_EXP_GET');
 
         // Matches /api/exp.
-        Route::post('/', [ExpController::class, 'create'])
-            ->middleware(Authorize::class . ':GPRS_EXP_CREATE');
-
+        // Route::post('/', [ExpController::class, 'create'])
+        // ->middleware(Authorize::class . ':GPRS_EXP_CREATE');
         // Matches /api/exp/{id}.
         Route::patch('/{id}', [ExpController::class, 'update'])
             ->middleware(Authorize::class . ':GPRS_EXP_UPDATE');
@@ -105,14 +110,19 @@ Route::prefix('edu')->middleware([Authenticate::class])->group(
     }
 );
 
+// Matches /api/skill/{id}.
+Route::get('/skill/', [SkillController::class, 'list']);
+
+Route::post('/skill/', [SkillController::class, 'create']);
+
 Route::prefix('skill')->middleware([Authenticate::class])->group(
     function () {
         // Matches /api/skill/{id}.
         Route::get('/{id}', [SkillController::class, 'get'])
             ->middleware(Authorize::class . ':GPRS_SKILL_GET');
         // Matches /api/skill.
-        Route::post('/', [SkillController::class, 'create'])
-            ->middleware(Authorize::class . ':GPRS_SKILL_CREATE');
+        // Route::post('/', [SkillController::class, 'create'])
+        // ->middleware(Authorize::class . ':GPRS_SKILL_CREATE');
         // Matches /api/skill/{id}.
         Route::patch('/{id}', [SkillController::class, 'update'])
             ->middleware(Authorize::class . ':GPRS_SKILL_UPDATE');
@@ -122,6 +132,11 @@ Route::prefix('skill')->middleware([Authenticate::class])->group(
     }
 );
 
+// Matches /api/proj/{id}.
+Route::get('/proj/', [ProjController::class, 'list']);
+
+Route::post('/proj/', [ProjController::class, 'create']);
+
 Route::prefix('proj')->middleware([Authenticate::class])->group(
     function () {
         // Matches /api/proj/{id}.
@@ -129,9 +144,8 @@ Route::prefix('proj')->middleware([Authenticate::class])->group(
             ->middleware(Authorize::class . ':GPRS_PROJ_GET');
 
         // Matches /api/proj.
-        Route::post('/', [ProjController::class, 'create'])
-            ->middleware(Authorize::class . ':GPRS_PROJ_CREATE');
-
+        // Route::post('/', [ProjController::class, 'create'])
+        // ->middleware(Authorize::class . ':GPRS_PROJ_CREATE');
         // Matches /api/proj/{id}.
         Route::patch('/{id}', [ProjController::class, 'update'])
             ->middleware(Authorize::class . ':GPRS_PROJ_UPDATE');
@@ -139,5 +153,15 @@ Route::prefix('proj')->middleware([Authenticate::class])->group(
         // Matches /api/proj/{id}.
         Route::delete('/{id}', [ProjController::class, 'suspend'])
             ->middleware(Authorize::class . ':GPRS_PROJ_DELETE');
+    }
+);
+
+// Matches /api/contact.
+Route::post('/contact/', [ContactController::class, 'create']);
+
+Route::prefix('contact')->group(
+    function () {
+        // Matches /api/contact/{id}.
+        Route::get('/{id}', [ContactController::class, 'get']);
     }
 );

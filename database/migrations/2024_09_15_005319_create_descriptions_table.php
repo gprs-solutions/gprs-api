@@ -19,7 +19,7 @@ return new class extends Migration
                 $table->id();
                 $table->string('lang', 2);
                 $table->string('name', 75);
-                $table->string('description', 1000);
+                $table->string('description', 3000);
                 $table->enum(
                     'type',
                     [

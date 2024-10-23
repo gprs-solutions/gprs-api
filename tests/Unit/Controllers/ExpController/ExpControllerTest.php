@@ -15,6 +15,31 @@ class ExpControllerTest extends BaseController
      *
      * @return void
      */
+    public function testList()
+    {
+        $mock = Mockery::mock(ExpService::class);
+        $mock->shouldReceive('list')->andReturn($this->defaultSuccessReturn);
+        $this->app->instance(ExpService::class, $mock);
+
+        $this->request->merge(
+            ['id' => 1]
+        );
+
+        $controller = app(ExpController::class);
+        $result     = $controller->list($this->request);
+        $this->assertEquals(Response::HTTP_OK, $result->getStatusCode());
+
+        $content = json_decode($result->getContent());
+        $this->assertEquals(Response::HTTP_OK, $content->status);
+        $this->assertTrue($content->success);
+        $this->assertEquals(__('messages.successfulOperation'), $content->message);
+    }
+
+    /**
+     * Test if the "happy path" works as expected.
+     *
+     * @return void
+     */
     public function testGet()
     {
         $mock = Mockery::mock(ExpService::class);

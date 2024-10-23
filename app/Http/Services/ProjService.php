@@ -31,6 +31,23 @@ class ProjService
     }
 
     /**
+     * Tries to list all saved projs.
+     *
+     * @return ServiceResult The result of the operation.
+     */
+    public function list(): ServiceResult
+    {
+        try {
+            $proj = $this->model->get();
+        } catch (Exception $e) {
+            Log::error(gethostname() . ' [' . get_class() . '::' . __FUNCTION__ . '] Exception: ' . $e->getMessage());
+            return ServiceResult::failure(__('messages.failedOperation'));
+        }
+
+        return ServiceResult::success(data: ProjectResource::collection($proj));
+    }
+
+    /**
      * Tries to get data from a specific proj.
      *
      * @param string $id The proj's id.

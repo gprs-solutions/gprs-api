@@ -16,6 +16,27 @@ class SkillTest extends BaseFeatureTestClass
      *
      * @return void
      */
+    public function testList()
+    {
+        Skill::factory()->count(5)->create();
+        $result = $this->get(
+            $this->baseUrl . '/skill/',
+        );
+        $result->assertStatus(Response::HTTP_OK);
+        $result->assertJsonStructure(['success', 'status', 'message', 'data']);
+        $content = $result->decodeResponseJson();
+        $this->assertTrue($content['success']);
+        $this->assertSame(Response::HTTP_OK, $content['status']);
+        $this->assertSame(__('messages.successfulOperation'), $content['message']);
+        $this->assertNotEmpty($content['data']);
+        $this->assertIsArray($content['data']);
+    }
+
+    /**
+     * Test if the "happy path" works as expected.
+     *
+     * @return void
+     */
     public function testGet()
     {
         $skill  = Skill::factory()->create();
