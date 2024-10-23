@@ -64,4 +64,4 @@ runs:
     - name: Install dependencies
       shell: bash
       run: |
-        ssh -p 2222 ${{ inputs.SSH_USER }} "cd ./${{ inputs.APP_URL }} && composer install --no-dev"
+        ssh -p 2222 ${{ inputs.SSH_USER }} "cd ./${{ inputs.APP_URL }} && bash -c 'composer install --no-dev'"

@@ -82,14 +82,6 @@ runs:
         php-version: '8.3'
         tools: composer
 
-    - name: 🧹 Delete composer.lock
-      shell: bash
-      run: rm -f ./composer.lock
-
-    - name: 📦 Install dependencies
-      shell: bash
-      run: composer install
-
     - name: 🧹 Delete non necessary folders
       shell: bash
       run: |
