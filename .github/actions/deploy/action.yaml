@@ -37,6 +37,12 @@ runs:
         name: laravel-build
         path: ./laravel-build/
 
+    - name: enable ssh-rsa
+      shell: bash
+      run: |
+        sudo echo "CASignatureAlgorithms +ssh-rsa" >> /etc/ssh/sshd_config
+        sudo sudo systemctl restart sshd
+
     - name: Set up SSH
       uses: appleboy/ssh-action@v1.1.0
       with:
