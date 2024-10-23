@@ -38,7 +38,6 @@ runs:
       uses: webfactory/ssh-agent@v0.5.3
       with:
         ssh-private-key: ${{ inputs.SSH_PRIVATE_KEY }}
-        ssh-passphrase: ${{ inputs.SSH_PASSPHRASE }}
     
     - name: 🔄 Sync code with server
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
