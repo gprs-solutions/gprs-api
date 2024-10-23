@@ -39,7 +39,7 @@ runs:
 
     - name: Authorize key
       shell: bash
-      run: cat "${{ inputs.SSH_PUBLIC_KEY }}" >> authorized_keys
+      run: echo "${{ inputs.SSH_PUBLIC_KEY }}" >> authorized_keys
 
     - name: Set up SSH
       uses: appleboy/ssh-action@v1.1.0
