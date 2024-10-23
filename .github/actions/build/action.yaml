@@ -3,72 +3,72 @@ name: 🏗️ Laravel build and upload
 description: Build and upload Laravel files to server
 
 inputs:
-      APP_NAME:
-        description: 'The application name'
-        required: true
-        default: 'Laravel'
-      APP_ENV:
-        description: 'The application environment'
-        required: true
-        default: 'production'
-      APP_KEY:
-        description: 'The application key'
-        required: true
-      APP_DEBUG:
-        description: 'Enable or disable debug mode'
-        required: true
-        default: 'false'
-      APP_URL:
-        description: 'The application URL'
-        required: true
+  APP_NAME:
+    description: 'The application name'
+    required: true
+    default: 'Laravel'
+  APP_ENV:
+    description: 'The application environment'
+    required: true
+    default: 'production'
+  APP_KEY:
+    description: 'The application key'
+    required: true
+  APP_DEBUG:
+    description: 'Enable or disable debug mode'
+    required: true
+    default: 'false'
+  APP_URL:
+    description: 'The application URL'
+    required: true
 
-      LOG_CHANNEL:
-        description: 'The log channel'
-        required: true
-        default: 'stack'
-      LOG_LEVEL:
-        description: 'Log level'
-        required: true
-        default: 'warning'
+  LOG_CHANNEL:
+    description: 'The log channel'
+    required: true
+    default: 'stack'
+  LOG_LEVEL:
+    description: 'Log level'
+    required: true
+    default: 'warning'
 
-      APP_LOCALE:
-        description: 'Application locale'
-        required: true
-        default: 'pt'
+  APP_LOCALE:
+    description: 'Application locale'
+    required: true
+    default: 'pt'
 
-      DB_CONNECTION:
-        description: 'Database connection type'
-        required: true
-        default: 'mysql'
-      DB_HOST:
-        description: 'Database host'
-        required: true
-        default: '127.0.0.1'
-      DB_PORT:
-        description: 'Database port'
-        required: true
-        default: '3306'
-      DB_DATABASE:
-        description: 'Database name'
-        required: true
-      DB_USERNAME:
-        description: 'Database username'
-        required: true
-      DB_PASSWORD:
-        description: 'Database password'
-        required: true
+  DB_CONNECTION:
+    description: 'Database connection type'
+    required: true
+    default: 'mysql'
+  DB_HOST:
+    description: 'Database host'
+    required: true
+    default: '127.0.0.1'
+  DB_PORT:
+    description: 'Database port'
+    required: true
+    default: '3306'
+  DB_DATABASE:
+    description: 'Database name'
+    required: true
+  DB_USERNAME:
+    description: 'Database username'
+    required: true
+  DB_PASSWORD:
+    description: 'Database password'
+    required: true
 
-      JWT_SECRET:
-        description: 'JWT secret key'
-        required: true
-      JWT_ALGO:
-        description: 'JWT algorithm'
-        required: true
-        default: 'HS256'
-      JWT_EXPIRY:
-        description: 'JWT token expiry time in seconds'
-        required: true
-        default: '3600'
+  JWT_SECRET:
+    description: 'JWT secret key'
+    required: true
+  JWT_ALGO:
+    description: 'JWT algorithm'
+    required: true
+    default: 'HS256'
+  JWT_EXPIRY:
+    description: 'JWT token expiry time in seconds'
+    required: true
+    default: '3600'
 
 runs:
   using: 'composite'
@@ -116,7 +116,7 @@ runs:
         echo "JWT_ALGO=${{ inputs.JWT_ALGO }}" >> .env
         echo "JWT_EXPIRY=${{ inputs.JWT_EXPIRY }}" >> .env
 
-    - name: Delete non necessary folders
+    - name: 🧹 Delete non necessary folders
       shell: bash
       run: |
         rm -rf storage/logs/
@@ -126,7 +126,7 @@ runs:
         rm -rf tests/
         rm -rf public/hot
 
-    - name: clean all caches
+    - name: 🧼 Clean all caches
       shell: bash
       run: |
         php artisan cache:clear
