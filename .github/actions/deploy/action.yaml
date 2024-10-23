@@ -45,7 +45,7 @@ runs:
     - name: Add server to known_hosts
       shell: bash
       run: |
-        ssh-keyscan -p 2222 ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+        ssh-keyscan -p 2222 gprs.solutions.com.br >> ~/.ssh/known_hosts
 
     - name: Test SSH
       shell: bash
