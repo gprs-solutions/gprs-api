@@ -37,21 +37,6 @@ runs:
         name: laravel-build
         path: ./laravel-build/
 
-    - name: Authorize key
-      shell: bash
-      run: |
-        mkdir -p ~/.ssh
-        sudo chmod 700 ~/.ssh
-
-        touch ~/.ssh/id_rsa.pub
-        sudo chmod 640 ~/.ssh/id_rsa.pub
-        echo "${{ inputs.SSH_PUBLIC_KEY }}" >> ~/.ssh/id_rsa.pub
-
-        cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
-        
-        sudo bash -c 'echo "CASignatureAlgorithms +ssh-rsa" >> /etc/ssh/sshd_config'
-        sudo systemctl restart sshd
-
     - name: Set up SSH
       uses: appleboy/ssh-action@v1.1.0
       with:
@@ -59,7 +44,6 @@ runs:
         username: ${{ inputs.SSH_USER }}
         key: ${{ inputs.SSH_PRIVATE_KEY }}
         port: 2222
-        passphrase: ${{ inputs.SSH_PASSPHRASE }}
         use_insecure_cipher: true
         script: |
           whoami
