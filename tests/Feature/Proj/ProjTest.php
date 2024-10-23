@@ -16,6 +16,27 @@ class ProjTest extends BaseFeatureTestClass
      *
      * @return void
      */
+    public function testList()
+    {
+        Project::factory()->count(5)->create();
+        $result     = $this->get(
+            $this->baseUrl . '/proj/',
+        );
+        $result->assertStatus(Response::HTTP_OK);
+        $result->assertJsonStructure(['success', 'status', 'message', 'data']);
+        $content = $result->decodeResponseJson();
+        $this->assertTrue($content['success']);
+        $this->assertSame(Response::HTTP_OK, $content['status']);
+        $this->assertSame(__('messages.successfulOperation'), $content['message']);
+        $this->assertNotEmpty($content['data']);
+        $this->assertIsArray($content['data']);
+    }
+
+    /**
+     * Test if the "happy path" works as expected.
+     *
+     * @return void
+     */
     public function testGet()
     {
         $project = Project::factory()->create();

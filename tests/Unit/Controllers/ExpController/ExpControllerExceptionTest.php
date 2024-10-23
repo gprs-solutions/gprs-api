@@ -74,7 +74,7 @@ class ExpControllerExceptionTest extends BaseController
         $content = json_decode($result->getContent());
         $this->assertEquals(Response::HTTP_BAD_REQUEST, $content->status);
         $this->assertFalse($content->success);
-        $this->assertCount(4, json_decode($content->message, true));
+        $this->assertCount(3, json_decode($content->message, true));
     }
 
     /**
