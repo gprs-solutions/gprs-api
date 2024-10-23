@@ -35,6 +35,7 @@ runs:
         path: ./laravel-build/
 
     - name: Set up SSH
+      shell: bash
       run: |
         # Create the .ssh directory if it doesn't exist
         mkdir -p ~/.ssh
