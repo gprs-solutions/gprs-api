@@ -19,7 +19,7 @@ class SkillTest extends BaseFeatureTestClass
     public function testList()
     {
         Skill::factory()->count(5)->create();
-        $result     = $this->get(
+        $result = $this->get(
             $this->baseUrl . '/skill/',
         );
         $result->assertStatus(Response::HTTP_OK);

@@ -19,7 +19,7 @@ class ExpTest extends BaseFeatureTestClass
     public function testList()
     {
         Experience::factory()->count(5)->create();
-        $result     = $this->get(
+        $result = $this->get(
             $this->baseUrl . '/exp/',
         );
         $result->assertStatus(Response::HTTP_OK);

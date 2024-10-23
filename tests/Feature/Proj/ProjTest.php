@@ -19,7 +19,7 @@ class ProjTest extends BaseFeatureTestClass
     public function testList()
     {
         Project::factory()->count(5)->create();
-        $result     = $this->get(
+        $result = $this->get(
             $this->baseUrl . '/proj/',
         );
         $result->assertStatus(Response::HTTP_OK);
