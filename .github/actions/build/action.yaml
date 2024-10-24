@@ -92,7 +92,6 @@ runs:
         rm -rf tests/
         rm -rf public/hot
         rm -rf vendor/
-        rm -rf public/
         rm -rf composer.lock
         rm -rf docker-compose.yaml
         rm -rf Dockerfile
