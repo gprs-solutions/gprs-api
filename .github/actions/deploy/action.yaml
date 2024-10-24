@@ -75,3 +75,8 @@ runs:
       shell: bash
       run: |
         ssh -p 2222 ${{ inputs.SSH_USER }} "cd ./${{ inputs.APP_URL }} && php artisan config:clear && php artisan route:cache"
+
+    - name: 📂 Optimize project
+      shell: bash
+      run: |
+        ssh -p 2222 ${{ inputs.SSH_USER }} "cd ./${{ inputs.APP_URL }} && php artisan optimize"
