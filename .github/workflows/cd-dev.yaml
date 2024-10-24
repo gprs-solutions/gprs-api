@@ -55,4 +55,3 @@ jobs:
         SSH_HOST: ${{secrets.SSH_HOST}}
         SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
         APP_URL: ${{vars.APP_URL_DEV}}
-        migrate: true

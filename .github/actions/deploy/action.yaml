@@ -24,10 +24,6 @@ inputs:
   APP_URL:
     description: 'The Application url'
     required: true
-  migrate:
-    description: 'Wheather the user wants to make a migration after deploy or not'
-    required: false
-    default: 'false'
 
 runs:
   using: 'composite'
@@ -78,9 +74,3 @@ runs:
       shell: bash
       run: |
         ssh -p 2222 ${{ inputs.SSH_USER }} "cd ./${{ inputs.APP_URL }} && php artisan config:clear && php artisan route:cache"
-
-    - name: 🛠️ Migrate database
-      shell: bash
-      if: ${{ inputs.migrate == 'true' }}
-      run: |
-        ssh -p 2222 ${{ inputs.SSH_USER }} "cd ./${{ inputs.APP_URL }} && php artisan migrate:fresh && php artisan migrate --force"

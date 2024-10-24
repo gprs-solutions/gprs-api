@@ -1,0 +1,31 @@
+name: Migrate
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: choice
+        description: Which environment to run the migration into
+        options:
+          - DEV
+          - PROD
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🔑 Set up SSH agent
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: 🛠️ Migrate database
+        shell: bash
+        run: |
+          if [ "${{ github.event.inputs.environment }}" == "DEV" ]; then
+            APP_URL=${{ vars.APP_URL_DEV }}
+          elif [ "${{ github.event.inputs.environment }}" == "PROD" ]; then
+            APP_URL=${{ vars.APP_URL }}
+          fi
+
+          ssh -p 2222 ${{ secrets.SSH_USER }} "cd ./${APP_URL} && php artisan migrate:fresh && php artisan migrate --force"
