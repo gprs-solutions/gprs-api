@@ -1,4 +1,4 @@
-name: Migrate
+name: 🏗️ Migrate
 
 on:
   workflow_dispatch:
