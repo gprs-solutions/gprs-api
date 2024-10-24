@@ -19,6 +19,11 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
+      - name: 🔐 Add server to known_hosts
+        shell: bash
+        run: |
+          ssh-keyscan -p 2222 ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+
       - name: 🛠️ Migrate database
         shell: bash
         run: |
