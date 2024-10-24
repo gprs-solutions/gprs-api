@@ -54,6 +54,7 @@ runs:
         username: ${{ inputs.ftp-user }}
         password: ${{ inputs.ftp-password }}
         local-dir: ./laravel-build/
+        dangerous-clean-slate: true
 
     - name: 📂 Extract Laravel project
       shell: bash
