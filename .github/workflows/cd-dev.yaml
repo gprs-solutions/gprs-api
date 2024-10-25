@@ -20,6 +20,7 @@ jobs:
         APP_KEY: ${{ secrets.APP_KEY_DEV }}
         APP_DEBUG: true
         APP_URL: ${{ vars.APP_URL_DEV }}
+        APP_FRONT_URL: ${{ vars.APP_FRONT_URL }}
 
         LOG_CHANNEL: json
         LOG_LEVEL: debug

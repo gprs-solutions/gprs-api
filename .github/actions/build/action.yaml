@@ -57,6 +57,9 @@ inputs:
   DB_PASSWORD:
     description: 'Database password'
     required: true
+  APP_FRONT_URL:
+    description: 'The frontend application URL'
+    required: true
 
   JWT_SECRET:
     description: 'JWT secret key'
@@ -107,6 +110,7 @@ runs:
         echo "APP_KEY=${{ inputs.APP_KEY }}" >> .env
         echo "APP_DEBUG=${{ inputs.APP_DEBUG }}" >> .env
         echo "APP_URL=${{ inputs.APP_URL }}" >> .env
+        echo "APP_FRONT_URL=${{ inputs.APP_FRONT_URL }}" >> .env
 
         echo "LOG_CHANNEL=${{ inputs.LOG_CHANNEL }}" >> .env
         echo "LOG_LEVEL=${{ inputs.LOG_LEVEL }}" >> .env

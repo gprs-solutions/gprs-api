@@ -15,12 +15,26 @@ return [
         |
     */
 
-    'paths' => ['*'],
-    'allowed_methods' => ['*'],
-    'allowed_origins' => ['*'],
+    'paths' => ['api/*'],
+    'allowed_methods' => ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    'allowed_origins' => [env('APP_FRONT_URL')],
     'allowed_origins_patterns' => [],
-    'allowed_headers' => ['*'],
+    'allowed_headers' => [
+        'Origin',
+        'Content-Type',
+        'Authorization',
+        'Content-Length',
+        'X-Requested-With',
+        'Host',
+        'Accept-Encoding',
+        'Referer',
+        'Accept',
+        'Content-Disposition',
+        'Content-Range',
+        'Content-Description',
+        'Accept-Language'
+    ],
     'exposed_headers' => [],
-    'max_age' => 0,
-    'supports_credentials' => true,
+    'max_age' => 3600,
+    'supports_credentials' => false,
 ];
