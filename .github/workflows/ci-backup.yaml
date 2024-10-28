@@ -31,7 +31,7 @@ jobs:
           ssh -p 2222 $SSH_USER << 'EOF'
             
             # Set the backup directory path
-            BACKUP_DIR="~/backups"
+            BACKUP_DIR='${{vars.HOME_FOLDER}}/backups'
             
             # Create the backups directory if it doesn't exist
             mkdir -p "$BACKUP_DIR"
@@ -44,7 +44,7 @@ jobs:
             echo "Backup file will be named: $BACKUP_NAME"
 
             # Perform the database dump
-            mysqldump -u "$DB_USERNAME" -p"$DB_PASSWORD" "$DB_DATABASE" > "$BACKUP_PATH"
+            mysqldump -u "$DB_USERNAME" --password="$DB_PASSWORD" "$DB_DATABASE" > "$BACKUP_PATH"
 
             # Confirm completion and list the file
             if [ -f "$BACKUP_PATH" ]; then
