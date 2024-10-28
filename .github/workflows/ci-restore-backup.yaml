@@ -22,42 +22,27 @@ jobs:
         run: |
           ssh-keyscan -p 2222 ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
-      - name: 🗂️ Restore Database from Backup
-        env:
-          SSH_USER: ${{ secrets.SSH_USER }}
-          SSH_HOST: ${{ secrets.SSH_HOST }}
-          DB_USERNAME: ${{ secrets.DB_USERNAME }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          DB_DATABASE: ${{ secrets.DB_DATABASE }}
-          BACKUP_FILE: ${{ github.event.inputs.BACKUP_FILE }}
+      - name: 🗂️ Check and Restore Database from Backup
+        shell: bash
         run: |
           # Check if the backup file is specified
-          if [ -z "$BACKUP_FILE" ]; then
+          if [ -z "${{ github.event.inputs.BACKUP_FILE }}" ]; then
             echo "Error: No backup file specified."
             exit 1
           fi
 
           # Connect to the server and restore the specified backup file
-          ssh -p 2222 $SSH_USER@$SSH_HOST << 'EOF'
-            BACKUP_DIR="~/backups"
-            BACKUP_PATH="$BACKUP_DIR/$BACKUP_FILE"
-
-            # Check if the backup file exists
-            if [ ! -f "$BACKUP_PATH" ]; then
-              echo "Error: Specified backup file does not exist in $BACKUP_DIR."
-              exit 1
-            fi
-
-            echo "Restoring database tables from backup: $BACKUP_FILE"
-
-            # Drop all tables in the database
-            TABLES=\$(mysql -u "$DB_USERNAME" -p"$DB_PASSWORD" -Nse 'SHOW TABLES' $DB_DATABASE)
-            for table in \$TABLES; do
-              mysql -u "$DB_USERNAME" -p"$DB_PASSWORD" -e "DROP TABLE IF EXISTS \\\$table" $DB_DATABASE
-            done
-
-            # Restore the database tables from the specified backup file
-            mysql -u "$DB_USERNAME" -p"$DB_PASSWORD" "$DB_DATABASE" < "$BACKUP_PATH"
-
-            echo "Database tables restored successfully from $BACKUP_FILE."
-          EOF
+          ssh -p 2222 ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} " \
+            BACKUP_DIR='~/backups' && \
+            BACKUP_PATH=\"\$BACKUP_DIR/${{ github.event.inputs.BACKUP_FILE }}\" && \
+            if [ ! -f \"\$BACKUP_PATH\" ]; then \
+              echo 'Error: Specified backup file does not exist in \$BACKUP_DIR.' && exit 1; \
+            fi && \
+            echo 'Restoring database tables from backup: ${{ github.event.inputs.BACKUP_FILE }}' && \
+            TABLES=\$(mysql -u${{ secrets.DB_USERNAME }} -p${{ secrets.DB_PASSWORD }} -Nse 'SHOW TABLES' ${{ secrets.DB_DATABASE }}) && \
+            for table in \$TABLES; do \
+              mysql -u${{ secrets.DB_USERNAME }} -p${{ secrets.DB_PASSWORD }} -e \"DROP TABLE IF EXISTS \\\$table\" ${{ secrets.DB_DATABASE }}; \
+            done && \
+            mysql -u${{ secrets.DB_USERNAME }} -p${{ secrets.DB_PASSWORD }} ${{ secrets.DB_DATABASE }} < \"\$BACKUP_PATH\" && \
+            echo 'Database tables restored successfully from ${{ github.event.inputs.BACKUP_FILE }}.' \
+          "
