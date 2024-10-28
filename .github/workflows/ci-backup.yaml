@@ -27,27 +27,34 @@ jobs:
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
           DB_DATABASE: ${{ secrets.DB_DATABASE }}
         run: |
-          # Connect to the server and ensure the 'backups' folder exists
-          ssh -p 2222 $SSH_USER@$SSH_HOST << 'EOF'
-            # Define the backup directory and create it if it doesn't exist
+          # Connect to the server, ensure the 'backups' folder exists, and create a backup
+          ssh -p 2222 $SSH_USER << 'EOF'
+            
+            # Set the backup directory path
             BACKUP_DIR="~/backups"
+            
+            # Create the backups directory if it doesn't exist
             mkdir -p "$BACKUP_DIR"
-
-            # Navigate to the backup directory
-            cd "$BACKUP_DIR"
-
-            # Check for existing backups and list them
-            if [ "$(ls -A)" ]; then
-              echo "Existing backups found:"
-              ls -lt
-            else
-              echo "No backups found. Preparing the first backup."
-            fi
+            echo "Backup directory checked and created if missing: $BACKUP_DIR"
 
             # Generate the backup filename based on the current date and time
-            BACKUP_NAME="backup-$(date +'%Y-%m-%d-%H').sql"
+            TIMESTAMP=$(date +'%Y-%m-%d-%H-%M-%S')
+            BACKUP_NAME="backup-$TIMESTAMP.sql"
+            BACKUP_PATH="$BACKUP_DIR/$BACKUP_NAME"
             echo "Backup file will be named: $BACKUP_NAME"
 
-            # Run the database backup command
-            mysqldump -u "$DB_USERNAME" -p"$DB_PASSWORD" "$DB_DATABASE" > "$BACKUP_DIR/$BACKUP_NAME"
+            # Perform the database dump
+            mysqldump -u "$DB_USERNAME" -p"$DB_PASSWORD" "$DB_DATABASE" > "$BACKUP_PATH"
+
+            # Confirm completion and list the file
+            if [ -f "$BACKUP_PATH" ]; then
+              echo "Database backup completed successfully."
+              echo "Backup saved at: $BACKUP_PATH"
+              ls -lt "$BACKUP_DIR"
+            else
+              echo "Error: Backup failed to create."
+              exit 1
+            fi
+
           EOF
+
