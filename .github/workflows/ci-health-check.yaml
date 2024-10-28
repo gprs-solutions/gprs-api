@@ -1,32 +1,21 @@
-name: Health Check ✔️
+name: ✔️ Health Check 
 
 on:
-  workflow_dispatch:
-    inputs:
-      option:
-        description: "Choose an option"
-        required: true
-        type: choice
-        options:
-          - DEV
-          - PROD
-
-  # Scheduled trigger (e.g., every 30 minutes)
+  # Scheduled trigger every 30 minutes
   schedule:
-    - cron: '*/30 * * * *'
+    - cron: '*/5 * * * *'
 
 jobs:
   run_with_options:
     runs-on: ubuntu-latest
     strategy:
       matrix:
+        # Define the environments and associated health check URLs
         option: 
           - name: DEV
             url_var: "HEALTH_CHECK_ENDPOINT_DEV"
           - name: PROD
             url_var: "HEALTH_CHECK_ENDPOINT"
-
-    if: github.event_name == 'schedule' || github.event.inputs.option == matrix.option.name
 
     steps:
       - name: ✔️ Check Routes
