@@ -27,8 +27,9 @@ jobs:
         run: |
           # Connect to the server and check if the backup file exists, then restore
           ssh -p 2222 ${{ secrets.SSH_USER }} " \
-            BACKUP_DIR='~/backups' && \
+            BACKUP_DIR='/home/username/backups' && \
             BACKUP_PATH=\"\$BACKUP_DIR/${{ github.event.inputs.BACKUP_FILE }}\" && \
+            echo \"Checking for backup file at: \$BACKUP_PATH\" && \
             if [ ! -f \"\$BACKUP_PATH\" ]; then \
               echo 'Error: Specified backup file does not exist in \$BACKUP_DIR.' && exit 1; \
             fi && \
@@ -40,3 +41,4 @@ jobs:
             mysql -u${{ secrets.DB_USERNAME }} -p${{ secrets.DB_PASSWORD }} ${{ secrets.DB_DATABASE }} < \"\$BACKUP_PATH\" && \
             echo 'Database tables restored successfully from ${{ github.event.inputs.BACKUP_FILE }}.' \
           "
+
