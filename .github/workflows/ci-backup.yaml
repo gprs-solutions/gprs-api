@@ -1,0 +1,53 @@
+name: 📦 Backup database
+
+on:
+  schedule:
+    - cron: '0 0 * * 0' # Runs every Sunday at midnight UTC
+  workflow_dispatch:
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🔑 Set up SSH agent
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }} 
+      
+      - name: 🔐 Add server to known_hosts
+        shell: bash
+        run: |
+          ssh-keyscan -p 2222 ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+
+      - name: 📂 Backup Database
+        env:
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_DATABASE: ${{ secrets.DB_DATABASE }}
+        run: |
+          # Connect to the server and ensure the 'backups' folder exists
+          ssh -p 2222 $SSH_USER@$SSH_HOST << 'EOF'
+            # Define the backup directory and create it if it doesn't exist
+            BACKUP_DIR="~/backups"
+            mkdir -p "$BACKUP_DIR"
+
+            # Navigate to the backup directory
+            cd "$BACKUP_DIR"
+
+            # Check for existing backups and list them
+            if [ "$(ls -A)" ]; then
+              echo "Existing backups found:"
+              ls -lt
+            else
+              echo "No backups found. Preparing the first backup."
+            fi
+
+            # Generate the backup filename based on the current date and time
+            BACKUP_NAME="backup-$(date +'%Y-%m-%d-%H').sql"
+            echo "Backup file will be named: $BACKUP_NAME"
+
+            # Run the database backup command
+            mysqldump -u "$DB_USERNAME" -p"$DB_PASSWORD" "$DB_DATABASE" > "$BACKUP_DIR/$BACKUP_NAME"
+          EOF
