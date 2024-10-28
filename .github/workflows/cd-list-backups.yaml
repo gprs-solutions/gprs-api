@@ -7,6 +7,16 @@ jobs:
   list-backups:
    runs-on: ubuntu-latest
    steps:
+    - name: 🔑 Set up SSH agent
+      uses: webfactory/ssh-agent@v0.5.3
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+    
+    - name: 🔐 Add server to known_hosts
+      shell: bash
+      run: |
+        ssh-keyscan -p 2222 ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+
     - name: 📂 List Database Backups
       run: |
         # Connect to the server and list all files in the 'backups' directory
