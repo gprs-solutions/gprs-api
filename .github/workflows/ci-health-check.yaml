@@ -23,7 +23,7 @@ jobs:
         env:
           HEALTH_CHECK_URL: ${{ secrets[matrix.option.url_var] }}
         run: |
-          echo "🔍 Checking health endpoint for ${matrix.option.name} at $HEALTH_CHECK_URL"
+          echo "Checking health endpoint for ${matrix.option.name} at $HEALTH_CHECK_URL"
           
           # Make the HTTP request to the dynamic URL and capture the status code
           STATUS_CODE=$(curl -s -o /dev/null -w "%{http_code}" "$HEALTH_CHECK_URL")
@@ -37,4 +37,4 @@ jobs:
 
       - name: 📋 Set Output Based on Status
         if: steps.request.outputs.status == '200'
-        run: echo "🟢 Request was successful for ${matrix.option.name}"
+        run: echo "Request was successful for ${matrix.option.name}"
