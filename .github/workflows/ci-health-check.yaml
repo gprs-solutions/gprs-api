@@ -1,9 +1,7 @@
-name: ✔️ Health Check 
+name: health-check
 
 on:
-  # Scheduled trigger every 30 minutes
-  schedule:
-    - cron: '*/5 * * * *'
+  workflow_dispatch:
 
 jobs:
   run_with_options:
