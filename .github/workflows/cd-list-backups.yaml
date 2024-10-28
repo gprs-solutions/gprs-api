@@ -20,4 +20,4 @@ jobs:
     - name: 📂 List Database Backups
       run: |
         echo -e "\033[0;32mThe current backups available are:\033[0m"
-        ssh -p 2222 $SSH_USER@$SSH_HOST "ls -a ./backups"
+        ssh -p 2222 ${{ secrets.SSH_USER }} "ls -a ./backups"
