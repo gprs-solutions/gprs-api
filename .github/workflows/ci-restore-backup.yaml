@@ -34,12 +34,15 @@ jobs:
             if [ ! -f \"\$BACKUP_PATH\" ]; then \
               echo 'Error: Specified backup file does not exist in \$BACKUP_DIR.' && exit 1; \
             fi && \
-            echo 'Restoring database tables from backup: ${{ github.event.inputs.BACKUP_FILE }}' && \
-            TABLES=\$(mysql -u ${{ secrets.DB_USERNAME }} --password=${{ secrets.DB_PASSWORD }} -Nse 'SHOW TABLES' ${{ secrets.DB_DATABASE }}) && \
-            for table in \$TABLES; do \
-              echo  'Deleting $table'
-              mysql -u ${{ secrets.DB_USERNAME }} --password=${{ secrets.DB_PASSWORD }} -e \"DROP TABLE \\\$table\" ${{ secrets.DB_DATABASE }}; \
-            done && \
-            mysql -u ${{ secrets.DB_USERNAME }} --password=${{ secrets.DB_PASSWORD }} ${{ secrets.DB_DATABASE }} < \"\$BACKUP_PATH\" && \
-            echo 'Database tables restored successfully from ${{ github.event.inputs.BACKUP_FILE }}.' \
+            echo 'Dropping all tables in database: ${{ secrets.DB_DATABASE }}' && \
+            mysql -u${{ secrets.DB_USERNAME }} -p${{ secrets.DB_PASSWORD }} ${{ secrets.DB_DATABASE }} -e \"SET FOREIGN_KEY_CHECKS = 0; \
+            SET @tables = NULL; \
+            SELECT GROUP_CONCAT('\`', table_name, '\`') INTO @tables \
+            FROM information_schema.tables WHERE table_schema = '${{ secrets.DB_DATABASE }}'; \
+            SET @drop_sql = CONCAT('DROP TABLE IF EXISTS ', @tables); \
+            PREPARE stmt FROM @drop_sql; EXECUTE stmt; DEALLOCATE PREPARE stmt; \
+            SET FOREIGN_KEY_CHECKS = 1;\" && \
+            echo 'Restoring database from backup: ${{ github.event.inputs.BACKUP_FILE }}' && \
+            mysql -u${{ secrets.DB_USERNAME }} -p${{ secrets.DB_PASSWORD }} ${{ secrets.DB_DATABASE }} < \"\$BACKUP_PATH\" && \
+            echo 'Database restored successfully from ${{ github.event.inputs.BACKUP_FILE }}.' \
           "
