@@ -37,7 +37,8 @@ jobs:
             echo 'Restoring database tables from backup: ${{ github.event.inputs.BACKUP_FILE }}' && \
             TABLES=\$(mysql -u ${{ secrets.DB_USERNAME }} --password=${{ secrets.DB_PASSWORD }} -Nse 'SHOW TABLES' ${{ secrets.DB_DATABASE }}) && \
             for table in \$TABLES; do \
-              mysql -u ${{ secrets.DB_USERNAME }} --password=${{ secrets.DB_PASSWORD }} -e \"DROP TABLE IF EXISTS \\\$table\" ${{ secrets.DB_DATABASE }}; \
+              echo  'Deleting $table'
+              mysql -u ${{ secrets.DB_USERNAME }} --password=${{ secrets.DB_PASSWORD }} -e \"DROP TABLE \\\$table\" ${{ secrets.DB_DATABASE }}; \
             done && \
             mysql -u ${{ secrets.DB_USERNAME }} --password=${{ secrets.DB_PASSWORD }} ${{ secrets.DB_DATABASE }} < \"\$BACKUP_PATH\" && \
             echo 'Database tables restored successfully from ${{ github.event.inputs.BACKUP_FILE }}.' \
