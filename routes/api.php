@@ -11,6 +11,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\Authorize;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB;
 
 /*
     |--------------------------------------------------------------------------
@@ -22,6 +23,19 @@ use Illuminate\Support\Facades\Route;
     | be assigned to the "api" middleware group. Make something great!
     |
 */
+
+Route::get('/health', function () {
+    // Perform a simple query to test database connection
+    DB::select('SELECT 1');
+
+    // Get the app version from the .env file or use a default version
+    $appVersion = config('app.version', '1.0.0');
+
+    return response()->json([
+        'status' => 'ok',
+        'app_version' => $appVersion
+    ], 200);
+});
 
 // Matches /login.
 Route::post('login', [AuthController::class, 'login']);

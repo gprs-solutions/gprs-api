@@ -1,0 +1,51 @@
+name: Health Check ✔️
+
+on:
+  workflow_dispatch:
+    inputs:
+      option:
+        description: "Choose an option"
+        required: true
+        type: choice
+        options:
+          - DEV
+          - PROD
+
+  # Scheduled trigger (e.g., every 30 minutes)
+  schedule:
+    - cron: '*/30 * * * *'
+
+jobs:
+  run_with_options:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        option: 
+          - name: DEV
+            url_var: "HEALTH_CHECK_ENDPOINT_DEV"
+          - name: PROD
+            url_var: "HEALTH_CHECK_ENDPOINT"
+
+    if: github.event_name == 'schedule' || github.event.inputs.option == matrix.option.name
+
+    steps:
+      - name: ✔️ Check Routes
+        id: request
+        env:
+          HEALTH_CHECK_URL: ${{ secrets[matrix.option.url_var] }}
+        run: |
+          echo "🔍 Checking health endpoint for ${matrix.option.name} at $HEALTH_CHECK_URL"
+          
+          # Make the HTTP request to the dynamic URL and capture the status code
+          STATUS_CODE=$(curl -s -o /dev/null -w "%{http_code}" "$HEALTH_CHECK_URL")
+
+          # Check the status code range and echo color-coded message
+          if [[ $STATUS_CODE -ge 200 && $STATUS_CODE -le 299 ]]; then
+            echo -e "\033[0;32m✅ Success: Status code $STATUS_CODE\033[0m"
+          else
+            echo -e "\033[0;31m❌ Failure: Status code $STATUS_CODE\033[0m"
+          fi
+
+      - name: 📋 Set Output Based on Status
+        if: steps.request.outputs.status == '200'
+        run: echo "🟢 Request was successful for ${matrix.option.name}"
