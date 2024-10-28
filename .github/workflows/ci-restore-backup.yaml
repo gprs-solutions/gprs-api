@@ -27,7 +27,7 @@ jobs:
         run: |
           # Connect to the server and check if the backup file exists, then restore
           ssh -p 2222 ${{ secrets.SSH_USER }} " \
-            BACKUP_DIR='/home/username/backups' && \
+            BACKUP_DIR='~/backups' && \
             BACKUP_PATH=\"\$BACKUP_DIR/${{ github.event.inputs.BACKUP_FILE }}\" && \
             echo \"Checking for backup file at: \$BACKUP_PATH\" && \
             if [ ! -f \"\$BACKUP_PATH\" ]; then \
