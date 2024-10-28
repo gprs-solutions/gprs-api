@@ -34,14 +34,8 @@ jobs:
             if [ ! -f \"\$BACKUP_PATH\" ]; then \
               echo 'Error: Specified backup file does not exist in \$BACKUP_DIR.' && exit 1; \
             fi && \
-            echo 'Dropping all tables in database: ${{ secrets.DB_DATABASE }}' && \
-            mysql -u${{ secrets.DB_USERNAME }} -p${{ secrets.DB_PASSWORD }} ${{ secrets.DB_DATABASE }} -e \"SET FOREIGN_KEY_CHECKS = 0; \
-            SET @tables = NULL; \
-            SELECT GROUP_CONCAT('\`', table_name, '\`') INTO @tables \
-            FROM information_schema.tables WHERE table_schema = '${{ secrets.DB_DATABASE }}'; \
-            SET @drop_sql = CONCAT('DROP TABLE IF EXISTS ', @tables); \
-            PREPARE stmt FROM @drop_sql; EXECUTE stmt; DEALLOCATE PREPARE stmt; \
-            SET FOREIGN_KEY_CHECKS = 1;\" && \
+            echo 'Dropping and recreating database: ${{ secrets.DB_DATABASE }}' && \
+            mysql -u${{ secrets.DB_USERNAME }} -p${{ secrets.DB_PASSWORD }} -e \"DROP DATABASE IF EXISTS ${{ secrets.DB_DATABASE }}; CREATE DATABASE ${{ secrets.DB_DATABASE }};\" && \
             echo 'Restoring database from backup: ${{ github.event.inputs.BACKUP_FILE }}' && \
             mysql -u${{ secrets.DB_USERNAME }} -p${{ secrets.DB_PASSWORD }} ${{ secrets.DB_DATABASE }} < \"\$BACKUP_PATH\" && \
             echo 'Database restored successfully from ${{ github.event.inputs.BACKUP_FILE }}.' \
