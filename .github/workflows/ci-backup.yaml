@@ -44,7 +44,7 @@ jobs:
             echo "Backup file will be named: $BACKUP_NAME"
 
             # Perform the database dump
-            mysqldump --defaults-file=${{vars.HOME_FOLDER}}/${{vars.APP_URL_DEV}} > "$BACKUP_PATH"
+            mysqldump --defaults-file=${{vars.HOME_FOLDER}}/${{vars.APP_URL_DEV}}/.my.cnf > "$BACKUP_PATH"
 
             # Confirm completion and list the file
             if [ -f "$BACKUP_PATH" ]; then
