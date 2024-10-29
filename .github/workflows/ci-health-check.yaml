@@ -19,10 +19,10 @@ jobs:
     steps:
       - name: ✔️ Check Routes
         run: |
-          echo "Checking health endpoint for ${matrix.option.name} at ${matrix.option.url}"
+          echo "Checking health endpoint for ${{matrix.option.name}} at ${{matrix.option.url}}"
           
           # Make the HTTP request to the dynamic URL and capture the status code
-          STATUS_CODE=$(curl -s -o /dev/null -w "%{http_code}" "${matrix.option.url}")
+          STATUS_CODE=$(curl -s -o /dev/null -w "%{http_code}" "${{matrix.option.url}}")
 
           # Check the status code range and echo color-coded message
           if [[ $STATUS_CODE -ge 200 && $STATUS_CODE -le 299 ]]; then
@@ -33,4 +33,4 @@ jobs:
 
       - name: 📋 Set Output Based on Status
         if: ${{ steps.request.outputs.status == '200' }}
-        run: echo "Request was successful for ${matrix.option.name}"
+        run: echo "Request was successful for ${{matrix.option.name}}"
