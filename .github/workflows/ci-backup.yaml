@@ -28,7 +28,7 @@ jobs:
           DB_DATABASE: ${{ secrets.DB_DATABASE }}
         run: |
           # Connect to the server, ensure the 'backups' folder exists, and create a backup
-          ssh -p 2222 $SSH_USER << 'EOF'
+          ssh -p 2222 -T $SSH_USER << 'EOF'
             
             # Set the backup directory path
             BACKUP_DIR='${{vars.HOME_FOLDER}}/backups'
