@@ -43,8 +43,7 @@ jobs:
           subject: "🚨 Health Check Failed for ${{ matrix.option.name }} Environment"
           to: ${{ secrets.PERSONAL_EMAIL }}
           from: ${{ secrets.HEALTH_CHECK_EMAIL }}
-          content_type: text/html
-          body: |
+          html_body: |
             <h1>Health Check Failed</h1>
             <p><strong>Environment:</strong> ${{ matrix.option.name }}</p>
             <p><strong>URL:</strong> ${{ matrix.option.url }}</p>
