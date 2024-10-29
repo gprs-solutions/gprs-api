@@ -48,4 +48,3 @@ jobs:
             <p><strong>Environment:</strong> ${{ matrix.option.name }}</p>
             <p><strong>URL:</strong> ${{ matrix.option.url }}</p>
             <p><strong>Status Code:</strong> ${{ env.status }}</p>
-            <p><strong>Time:</strong> ${{ steps.health_check.outputs.time }}</p>
