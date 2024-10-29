@@ -128,6 +128,14 @@ runs:
         echo "JWT_ALGO=${{ inputs.JWT_ALGO }}" >> .env
         echo "JWT_EXPIRY=${{ inputs.JWT_EXPIRY }}" >> .env
 
+    - name: 🏗️ Build .my.cnf file
+      shell: bash
+      run: |
+        touch .my.cnf
+        echo '[mysqldump]' >> .my.cnf
+        echo "user=${{ inputs.DB_USERNAME }}" >> .my.cnf
+        echo "password=${{ inputs.DB_PASSWORD }}" >> .my.cnf
+
     - name: compress project
       shell: bash
       run: tar -czf laravel-build.tar.gz .[!.]* *
