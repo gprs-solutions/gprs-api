@@ -1,4 +1,4 @@
-name: 📦 Backup database
+name: 📂 Backup database
 
 on:
   schedule:
