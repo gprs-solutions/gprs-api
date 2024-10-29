@@ -1,32 +1,28 @@
-name: ✔️ Health Check 
+name: health-check
 
 on:
-  # Scheduled trigger every 30 minutes
-  schedule:
-    - cron: '*/5 * * * *'
+  # Only runs on manual trigger
+  workflow_dispatch:
 
 jobs:
   run_with_options:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        # Define the environments and associated health check URLs
+        # Define the environments with direct URLs
         option: 
           - name: DEV
-            url_var: "HEALTH_CHECK_ENDPOINT_DEV"
+            url: "${{ vars.HEALTH_CHECK_ENDPOINT_DEV }}"
           - name: PROD
-            url_var: "HEALTH_CHECK_ENDPOINT"
+            url: "${{ vars.HEALTH_CHECK_ENDPOINT }}"
 
     steps:
       - name: ✔️ Check Routes
-        id: request
-        env:
-          HEALTH_CHECK_URL: ${{ secrets[matrix.option.url_var] }}
         run: |
-          echo "Checking health endpoint for ${matrix.option.name} at $HEALTH_CHECK_URL"
+          echo "Checking health endpoint for ${matrix.option.name} at ${matrix.option.url}"
           
           # Make the HTTP request to the dynamic URL and capture the status code
-          STATUS_CODE=$(curl -s -o /dev/null -w "%{http_code}" "$HEALTH_CHECK_URL")
+          STATUS_CODE=$(curl -s -o /dev/null -w "%{http_code}" "${matrix.option.url}")
 
           # Check the status code range and echo color-coded message
           if [[ $STATUS_CODE -ge 200 && $STATUS_CODE -le 299 ]]; then
@@ -36,5 +32,5 @@ jobs:
           fi
 
       - name: 📋 Set Output Based on Status
-        if: steps.request.outputs.status == '200'
+        if: ${{ steps.request.outputs.status == '200' }}
         run: echo "Request was successful for ${matrix.option.name}"
