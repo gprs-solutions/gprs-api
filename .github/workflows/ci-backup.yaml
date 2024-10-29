@@ -44,7 +44,7 @@ jobs:
             echo "Backup file will be named: $BACKUP_NAME"
 
             # Perform the database dump
-            mysqldump -u "$DB_USERNAME" --password "$DB_PASSWORD" "$DB_DATABASE" > "$BACKUP_PATH"
+            mysqldump -u "$DB_USERNAME" -p"$DB_PASSWORD" "$DB_DATABASE" > "$BACKUP_PATH"
 
             # Confirm completion and list the file
             if [ -f "$BACKUP_PATH" ]; then
