@@ -1,7 +1,8 @@
-name: health-check
+name: 🩺 Health Check
 
 on:
-  workflow_dispatch:
+  schedule:
+    - cron: '0 * * * *'
 
 jobs:
   run_with_options:
@@ -11,8 +12,6 @@ jobs:
         option: 
           - name: DEV
             url: "${{ vars.HEALTH_CHECK_ENDPOINT_DEV }}"
-          - name: PROD
-            url: "${{ vars.HEALTH_CHECK_ENDPOINT }}"
 
     steps:
       - name: ✔️ Check Routes
