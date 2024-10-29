@@ -1,7 +1,6 @@
 name: health-check
 
 on:
-  # Only runs on manual trigger
   workflow_dispatch:
 
 jobs:
@@ -9,7 +8,6 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        # Define the environments with direct URLs
         option: 
           - name: DEV
             url: "${{ vars.HEALTH_CHECK_ENDPOINT_DEV }}"
@@ -18,8 +16,9 @@ jobs:
 
     steps:
       - name: ✔️ Check Routes
+        id: health_check
         run: |
-          echo "Checking health endpoint for ${{matrix.option.name}} at ${{matrix.option.url}}"
+          echo "Checking health endpoint for ${{matrix.option.name}} environment at ${{matrix.option.url}}"
           
           # Make the HTTP request to the dynamic URL and capture the status code
           STATUS_CODE=$(curl -s -o /dev/null -w "%{http_code}" "${{matrix.option.url}}")
@@ -29,8 +28,25 @@ jobs:
             echo -e "\033[0;32m✅ Success: Status code $STATUS_CODE\033[0m"
           else
             echo -e "\033[0;31m❌ Failure: Status code $STATUS_CODE\033[0m"
+            echo "status=$STATUS_CODE" >> $GITHUB_ENV
+            echo "failure=true" >> $GITHUB_ENV
           fi
 
-      - name: 📋 Set Output Based on Status
-        if: ${{ steps.request.outputs.status == '200' }}
-        run: echo "Request was successful for ${{matrix.option.name}}"
+      - name: 📧 Send Failure Email
+        if: ${{ env.failure == 'true' }}
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: ${{ secrets.SMTP_SERVER_ADDRESS }}
+          server_port: 465
+          username: ${{ secrets.HEALTH_CHECK_EMAIL }}
+          password: ${{ secrets.HEALTH_CHECK_EMAIL_PASSWORD }}
+          subject: "🚨 Health Check Failed for ${{ matrix.option.name }} Environment"
+          to: ${{ secrets.PERSONAL_EMAIL }}
+          from: ${{ secrets.HEALTH_CHECK_EMAIL }}
+          content_type: text/html
+          body: |
+            <h1>Health Check Failed</h1>
+            <p><strong>Environment:</strong> ${{ matrix.option.name }}</p>
+            <p><strong>URL:</strong> ${{ matrix.option.url }}</p>
+            <p><strong>Status Code:</strong> ${{ env.status }}</p>
+            <p><strong>Time:</strong> ${{ steps.health_check.outputs.time }}</p>
