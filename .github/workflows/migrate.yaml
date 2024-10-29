@@ -1,4 +1,4 @@
-name: 🏗️ Migrate
+name: 🏗️ Laravel migrate fresh database
 
 on:
   workflow_dispatch:
