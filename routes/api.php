@@ -24,18 +24,24 @@ use Illuminate\Support\Facades\DB;
     |
 */
 
-Route::get('/health', function () {
-    // Perform a simple query to test database connection
-    DB::select('SELECT 1');
+Route::get(
+    '/health',
+    function () {
+        // Perform a simple query to test database connection.
+        DB::select('SELECT 1');
 
-    // Get the app version from the .env file or use a default version
-    $appVersion = config('app.version', '1.0.0');
+        // Get the app version from the .env file or use a default version.
+        $appVersion = config('app.version', '1.0.0');
 
-    return response()->json([
-        'status' => 'ok',
-        'app_version' => $appVersion
-    ], 200);
-});
+        return response()->json(
+            [
+                'status'      => 'ok',
+                'app_version' => $appVersion,
+            ],
+            200
+        );
+    }
+);
 
 // Matches /login.
 Route::post('login', [AuthController::class, 'login']);

@@ -73,6 +73,35 @@ inputs:
     required: true
     default: '3600'
 
+  MAIL_MAILER:
+    description: 'Which protocol will be used for mailing'
+    default: 'smtp'
+  MAIL_HOST:
+    description: 'The email server'
+    required: true
+  MAIL_PORT:
+    description: 'The port which will be used by the host'
+    required: true
+  MAIL_USERNAME:
+    description: 'The server username'
+    required: true
+  MAIL_PASSWORD:
+    description: 'The server password'
+    required: true
+  MAIL_ENCRYPTION:
+    description: 'The type of encryption to be used'
+    default: tls
+    required: true
+  MAIL_FROM_ADDRESS:
+    description: 'Email that will send the address'
+    required: true
+  MAIL_FROM_NAME:
+    description: 'Name that will appear when email is sent'
+    required: true
+  MAIL_ADMIN_ADDRESS:
+    description: 'Admin email to receive the email notifications'
+    required: true
+
 runs:
   using: 'composite'
   steps:
@@ -127,6 +156,16 @@ runs:
         echo "JWT_SECRET=${{ inputs.JWT_SECRET }}" >> .env
         echo "JWT_ALGO=${{ inputs.JWT_ALGO }}" >> .env
         echo "JWT_EXPIRY=${{ inputs.JWT_EXPIRY }}" >> .env
+
+        echo "MAIL_MAILER=${{ inputs.MAIL_MAILER }}" >> .env
+        echo "MAIL_HOST=${{ inputs.MAIL_HOST }}" >> .env
+        echo "MAIL_PORT=${{ inputs.MAIL_PORT }}" >> .env
+        echo "MAIL_USERNAME=${{ inputs.MAIL_USERNAME }}" >> .env
+        echo "MAIL_PASSWORD=${{ inputs.MAIL_PASSWORD }}" >> .env
+        echo "MAIL_ENCRYPTION=${{ inputs.MAIL_ENCRYPTION }}" >> .env
+        echo "MAIL_FROM_ADDRESS=${{ inputs.MAIL_FROM_ADDRESS }}" >> .env
+        echo "MAIL_FROM_NAME=${{ inputs.MAIL_FROM_NAME }}" >> .env
+        echo "MAIL_ADMIN_ADDRESS=${{ inputs.MAIL_ADMIN_ADDRESS }}" >> .env
 
     - name: 🏗️ Build .my.cnf file
       shell: bash

@@ -4,11 +4,13 @@ namespace App\Http\Services;
 
 use Illuminate\Support\Facades\Log;
 use App\Http\Resources\ContactResource;
-use App\Models\Role;
+use App\Mail\ClientMail;
+use App\Mail\ContactMail;
+use Illuminate\Support\Facades\Mail;
 use App\Models\Contact;
 use Exception;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use PhpParser\Node\Expr\Throw_;
 
 class ContactService
 {
@@ -71,6 +73,11 @@ class ContactService
             $this->model->email   = $email;
             $this->model->message = $message;
             $this->model->save();
+
+            // Sending contact emails.
+            if (!$this->email()) {
+                throw new Exception('messages.failedOperation');
+            }
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
@@ -79,5 +86,30 @@ class ContactService
         }
 
         return ServiceResult::success();
+    }
+
+    /**
+     * Sends the contact emails.
+     *
+     * @return bool weather it worked or not.
+     */
+    private function email()
+    {
+        try {
+            $data = [
+                'name'    => $this->model->name,
+                'email'   => $this->model->email,
+                'message' => $this->model->message,
+            ];
+            // Send email to notify website admin.
+            Mail::to(config('mail.admin.address'))->send(new ContactMail($data));
+            // Send success email to client.
+            Mail::to($data['email'])->send(new ClientMail($data));
+
+            return true;
+        } catch (Exception $e) {
+            Log::error(gethostname() . ' [' . get_class() . '::' . __FUNCTION__ . '] Exception: ' . $e->getMessage());
+            return false;
+        }
     }
 }

@@ -82,7 +82,7 @@ class ContactController
             $request->all(),
             [
                 'name'    => 'required|min:2|max:100',
-                'email'   => 'required|email|unique:App\Models\Contact,email',
+                'email'   => 'required|email',
                 'message' => 'required|max:1000',
             ]
         );

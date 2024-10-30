@@ -16,7 +16,7 @@ class CertificationFactory extends Factory
         return [
             'image' => fake()->text(),
             'start' => fake()->date('Y-m-d'),
-            'end'   => fake()->date('Y-m-d'),
+            'end' => fake()->date('Y-m-d'),
             'link'  => fake()->text(),
         ];
     }
