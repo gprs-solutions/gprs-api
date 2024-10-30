@@ -14,9 +14,9 @@ return [
         |
     */
 
-    'paths' => ['api/*'],
+    'paths' => ['*'],
     'allowed_methods' => ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    'allowed_origins' => [env('APP_FRONT_URL')],
+    'allowed_origins' => ['*'],
     'allowed_origins_patterns' => [],
     'allowed_headers' => ['*'],
     'exposed_headers' => [],
