@@ -164,7 +164,7 @@ runs:
         echo "MAIL_PASSWORD=${{ inputs.MAIL_PASSWORD }}" >> .env
         echo "MAIL_ENCRYPTION=${{ inputs.MAIL_ENCRYPTION }}" >> .env
         echo "MAIL_FROM_ADDRESS=${{ inputs.MAIL_FROM_ADDRESS }}" >> .env
-        echo "MAIL_FROM_NAME=${{ inputs.MAIL_FROM_NAME }}" >> .env
+        echo "MAIL_FROM_NAME='${{ inputs.MAIL_FROM_NAME }}'" >> .env
         echo "MAIL_ADMIN_ADDRESS=${{ inputs.MAIL_ADMIN_ADDRESS }}" >> .env
 
     - name: 🏗️ Build .my.cnf file
