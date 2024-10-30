@@ -12,7 +12,7 @@ class Cors
      * CORS headers.
      */
     private const CORS_HEADERS = [
-        'Access-Control-Allow-Origin'      => '*',
+        'Access-Control-Allow-Origin'      => 'https://dev.gprssolutions.com.br, https://gprssolutions.com.br',
         'Access-Control-Allow-Methods'     => 'POST, GET, OPTIONS, PUT, DELETE',
         'Access-Control-Allow-Credentials' => 'true',
         'Access-Control-Max-Age'           => '86400',
